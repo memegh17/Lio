@@ -1,0 +1,765 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>تحدي علم الوراثة</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@500;600;700&display=swap">
+<style>
+/* Layout: official letterhead band → microscope "field of view" hero → one working column of cards (game, board, teacher). Palette from H&E histology stains on a glass slide. */
+:root{
+  --bg:#EDF2F0; --surface:#FFFFFF; --surface-2:#E2EBE7; --ink:#14232A; --muted:#55686B; --line:#C8D5D1;
+  --hema:#3A3A8E; --hema-soft:#E4E4F6; --eosin:#BE3A6F; --eosin-soft:#F7E2EB;
+  --good:#23845A; --good-soft:#DDF1E6; --bad:#B8392C; --bad-soft:#F7E0DC; --gold:#A97A1F; --gold-soft:#F5EBD3;
+  --silver:#7D8A92; --bronze:#A0603A;
+  --f-display:"Reem Kufi","IBM Plex Sans Arabic",Tahoma,sans-serif;
+  --f-body:"IBM Plex Sans Arabic",Tahoma,"Segoe UI",sans-serif;
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0D171A; --surface:#15232A; --surface-2:#1C2E35; --ink:#E5EEEB; --muted:#95A8A9; --line:#2A3E45;
+  --hema:#A3A2F2; --hema-soft:#26284A; --eosin:#EF84AE; --eosin-soft:#43202F;
+  --good:#5ECB91; --good-soft:#163628; --bad:#F2806F; --bad-soft:#40211D; --gold:#E3B75C; --gold-soft:#3A2F18;
+  --silver:#B4C0C6; --bronze:#D99369; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0D171A; --surface:#15232A; --surface-2:#1C2E35; --ink:#E5EEEB; --muted:#95A8A9; --line:#2A3E45;
+  --hema:#A3A2F2; --hema-soft:#26284A; --eosin:#EF84AE; --eosin-soft:#43202F;
+  --good:#5ECB91; --good-soft:#163628; --bad:#F2806F; --bad-soft:#40211D; --gold:#E3B75C; --gold-soft:#3A2F18;
+  --silver:#B4C0C6; --bronze:#D99369; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.7;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px 40px}
+.wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.35}
+p{margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--eosin);outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+.small{font-size:.86rem}
+
+/* Letterhead */
+.letterhead{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.lh-grid{display:grid;grid-template-columns:1fr 1.35fr 1fr;align-items:center;gap:10px;padding:14px 16px}
+.lh-right{font-weight:600;font-size:.92rem;line-height:1.75}
+.lh-center{text-align:center;font-size:.9rem;line-height:1.75}
+.lh-center strong{font-family:var(--f-display);font-size:1.02rem;color:var(--hema);font-weight:600}
+.lh-left{display:flex;justify-content:flex-end;align-items:center}
+.logo-slot{width:96px;height:72px;display:grid;place-items:center;text-align:center;font-size:.72rem;color:var(--muted);border:1.5px dashed var(--line);border-radius:10px;line-height:1.4;padding:4px}
+.logo-img{max-height:78px;max-width:120px;object-fit:contain}
+.lh-rule{height:5px;background:linear-gradient(90deg,var(--hema) 0 70%,var(--gold) 70% 72%,var(--hema) 72%)}
+@media (max-width:560px){.lh-grid{grid-template-columns:1fr 1fr;}.lh-center{grid-column:1/-1;order:3;border-top:1px solid var(--line);padding-top:8px}.lh-right{font-size:.82rem}.logo-slot{width:78px;height:60px}}
+
+/* Hero */
+.hero{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;padding:6px 4px}
+.lens{width:118px;height:118px;border-radius:50%;position:relative;flex:none;
+  background:radial-gradient(circle at 40% 35%,var(--surface) 0,var(--eosin-soft) 70%,var(--hema-soft) 100%);
+  box-shadow:0 0 0 7px var(--surface),0 0 0 9px var(--ink),0 0 0 14px var(--surface-2)}
+.lens canvas{width:100%;height:100%;border-radius:50%;display:block}
+.hero h1{font-size:clamp(1.9rem,6vw,2.9rem);color:var(--hema);font-weight:700;letter-spacing:0}
+.hero .sub{font-family:var(--f-display);font-size:1.15rem;color:var(--eosin);font-weight:500}
+.hero .lesson{margin-top:4px;color:var(--muted);font-size:.92rem}
+@media (max-width:480px){.hero{grid-template-columns:1fr;justify-items:center;text-align:center}.lens{width:96px;height:96px}}
+
+/* Nav */
+.nav{display:flex;gap:6px;flex-wrap:wrap;align-items:center;border-bottom:1px solid var(--line);padding-bottom:10px}
+.tab{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 16px;font-weight:600;font-size:.92rem}
+.tab[aria-current="page"]{background:var(--hema);border-color:var(--hema);color:var(--surface)}
+.nav .spacer{flex:1}
+.mode{font-size:.78rem;padding:4px 10px;border-radius:999px;background:var(--surface-2);color:var(--muted)}
+.mode.on{background:var(--good-soft);color:var(--good)}
+.iconbtn{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;font-size:.84rem}
+
+/* Cards & controls */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px}
+.card h2{font-size:1.35rem;color:var(--ink)}
+.stack{display:flex;flex-direction:column;gap:14px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{border:none;border-radius:12px;padding:12px 22px;font-weight:700;font-size:1rem;background:var(--hema);color:var(--surface);transition:transform .12s,opacity .12s}
+.btn:hover{transform:translateY(-1px)}
+.btn:disabled{opacity:.42;cursor:not-allowed;transform:none}
+.btn.alt{background:var(--surface-2);color:var(--ink);border:1px solid var(--line)}
+.btn.pink{background:var(--eosin)}
+.btn.sm{padding:7px 14px;font-size:.88rem;border-radius:10px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-weight:600;font-size:.92rem}
+.input{border:1.5px solid var(--line);background:var(--bg);border-radius:12px;padding:11px 14px;font-size:1.05rem;width:100%}
+.input:focus{border-color:var(--hema);outline:none}
+.note{background:var(--surface-2);border-radius:12px;padding:12px 14px;font-size:.9rem;color:var(--muted)}
+.note.warn{background:var(--gold-soft);color:var(--ink)}
+.note.ok{background:var(--good-soft);color:var(--ink)}
+.err{color:var(--bad);font-weight:600;font-size:.9rem}
+
+/* Rules grid */
+.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.rule{background:var(--bg);border-radius:12px;padding:12px;font-size:.88rem}
+.rule b{display:block;font-family:var(--f-display);font-size:1.15rem;color:var(--hema)}
+@media (max-width:560px){.rules{grid-template-columns:1fr}}
+
+/* Journey map */
+.journey{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;counter-reset:st}
+.station{background:var(--bg);border:1.5px solid var(--line);border-radius:14px;padding:12px;display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:center;min-width:0}
+.station .ic{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--surface);border:1.5px solid var(--line)}
+.station .ic svg{width:28px;height:28px}
+.station h3{font-size:.98rem}
+.station .st{font-size:.78rem;color:var(--muted)}
+.station.done{border-color:var(--good);background:var(--good-soft)}
+.station.done .ic{border-color:var(--good)}
+.station.cur{border-color:var(--hema);background:var(--hema-soft)}
+.station.cur .ic{border-color:var(--hema)}
+.station.locked{opacity:.55}
+@media (max-width:640px){.journey{grid-template-columns:1fr 1fr}}
+@media (max-width:380px){.journey{grid-template-columns:1fr}}
+
+/* Quiz HUD */
+.hud{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center}
+.hud .lvname{font-family:var(--f-display);font-weight:600;font-size:1.05rem;min-width:0}
+.pill{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-weight:700;white-space:nowrap}
+.pill.score{color:var(--eosin)}
+.progress{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
+.seg{height:8px;border-radius:4px;background:var(--surface-2);overflow:hidden}
+.seg i{display:block;height:100%;background:var(--hema);width:0;transition:width .3s}
+.seg.done i{background:var(--good)}
+.qmeta{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font-size:.75rem;font-weight:600;padding:2px 10px;border-radius:999px;background:var(--hema-soft);color:var(--hema)}
+.chip.sk{background:var(--eosin-soft);color:var(--eosin)}
+.qtext{font-size:1.18rem;font-weight:600;line-height:1.8}
+.fig{background:var(--bg);border-radius:12px;padding:10px;display:flex;justify-content:center;overflow-x:auto}
+.fig svg{max-width:100%;height:auto;display:block}
+.opts{display:grid;gap:10px}
+.opt{text-align:right;border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:12px 14px;font-size:1rem;display:flex;gap:10px;align-items:flex-start;line-height:1.6}
+.opt .k{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--surface-2);font-weight:700;font-size:.85rem}
+.opt[aria-pressed="true"]{border-color:var(--hema);background:var(--hema-soft)}
+.opt[aria-pressed="true"] .k{background:var(--hema);color:var(--surface)}
+.opt.right{border-color:var(--good);background:var(--good-soft)}
+.opt.right .k{background:var(--good);color:var(--surface)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.opt.wrong .k{background:var(--bad);color:var(--surface)}
+.opt:disabled{cursor:default}
+.tf{grid-template-columns:1fr 1fr}
+.tf .opt{justify-content:center;font-weight:700;font-size:1.1rem}
+.filltext{font-size:1.12rem;line-height:2.6}
+.blank{border:1.5px solid var(--hema);background:var(--hema-soft);border-radius:10px;padding:4px 8px;font-size:1rem;max-width:100%}
+.blank.right{border-color:var(--good);background:var(--good-soft)}
+.blank.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.fix{font-size:.82rem;color:var(--good);font-weight:700;margin-inline-start:4px}
+.mrow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:10px;align-items:center;padding:10px;border-radius:12px;background:var(--bg)}
+.mrow .left{font-weight:700}
+.mrow select{width:100%;border:1.5px solid var(--line);background:var(--surface);border-radius:10px;padding:8px}
+.mrow.right{background:var(--good-soft)}
+.mrow.wrong{background:var(--bad-soft)}
+@media (max-width:520px){.mrow{grid-template-columns:1fr}}
+.olist{display:grid;gap:8px;list-style:none;margin:0;padding:0}
+.oitem{display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center;border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:10px}
+.oitem .pos{width:30px;height:30px;border-radius:50%;background:var(--hema);color:var(--surface);display:grid;place-items:center;font-weight:700}
+.oitem .mv{display:flex;gap:4px}
+.oitem .mv button{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--bg);font-weight:700}
+.oitem{width:100%;text-align:right;cursor:pointer;min-height:56px}
+.oitem.sel{border-color:var(--hema);background:var(--hema-soft)}
+.oitem .pos.empty{background:var(--surface-2);color:var(--muted)}
+.oitem:disabled{cursor:default}
+.oitem.right{border-color:var(--good);background:var(--good-soft)}
+.oitem.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.feedback{border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.feedback.ok{background:var(--good-soft)}
+.feedback.no{background:var(--bad-soft)}
+.feedback h3{font-size:1.1rem}
+.feedback.ok h3{color:var(--good)}
+.feedback.no h3{color:var(--bad)}
+.pts{font-weight:700}
+.qfoot{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+
+/* Result stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.stat{background:var(--bg);border-radius:12px;padding:12px;text-align:center}
+.stat b{display:block;font-family:var(--f-display);font-size:1.6rem;color:var(--hema);line-height:1.3}
+.stat span{font-size:.82rem;color:var(--muted)}
+@media (max-width:560px){.stats{grid-template-columns:1fr 1fr}}
+.big-msg{font-family:var(--f-display);font-size:1.6rem;color:var(--eosin);text-align:center}
+.champ{background:linear-gradient(135deg,var(--gold-soft),var(--eosin-soft));border:1.5px solid var(--gold);border-radius:14px;padding:14px;text-align:center;font-family:var(--f-display);font-size:1.25rem;color:var(--gold)}
+.certwrap{background:var(--bg);border-radius:12px;padding:10px}
+.certwrap canvas{width:100%;height:auto;display:block;border-radius:6px;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+.code{font-family:ui-monospace,Menlo,monospace;font-size:.78rem;word-break:break-all;background:var(--bg);border:1px dashed var(--line);border-radius:10px;padding:10px;direction:ltr;text-align:left;user-select:all}
+
+/* Leaderboard */
+.podium{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:10px;align-items:end}
+.pod{background:var(--bg);border-radius:14px;padding:14px 8px;text-align:center;min-width:0}
+.pod .medal{width:46px;height:46px;border-radius:50%;margin:0 auto 6px;display:grid;place-items:center;font-family:var(--f-display);font-size:1.3rem;font-weight:700;color:var(--surface)}
+.pod.p1{padding-block:22px;border:1.5px solid var(--gold);background:var(--gold-soft)}
+.pod.p1 .medal{background:var(--gold);width:56px;height:56px}
+.pod.p2 .medal{background:var(--silver)}
+.pod.p3 .medal{background:var(--bronze)}
+.pod .nm{font-weight:700;overflow-wrap:anywhere}
+.pod .sc{font-size:.85rem;color:var(--muted)}
+.tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse;font-size:.9rem;min-width:620px}
+th,td{padding:9px 10px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th{background:var(--surface-2);font-weight:700;font-size:.82rem}
+tr:last-child td{border-bottom:none}
+td.nm{white-space:normal;font-weight:600}
+tr.me td{background:var(--hema-soft)}
+.badge{font-size:.75rem;font-weight:700;padding:2px 8px;border-radius:999px}
+.badge.ok{background:var(--good-soft);color:var(--good)}
+.badge.part{background:var(--gold-soft);color:var(--gold)}
+
+/* Teacher */
+.bars{display:grid;gap:8px}
+.bar{display:grid;grid-template-columns:minmax(90px,150px) 1fr 52px;gap:10px;align-items:center;font-size:.88rem}
+.bar .track{height:12px;border-radius:6px;background:var(--surface-2);overflow:hidden}
+.bar .fill{height:100%;background:var(--hema);border-radius:6px}
+.bar .fill.low{background:var(--bad)}
+.bar .fill.mid{background:var(--gold)}
+.hard{display:grid;gap:8px}
+.hard li{list-style:none;background:var(--bg);border-radius:10px;padding:10px 12px;display:grid;grid-template-columns:1fr auto;gap:10px;font-size:.9rem}
+.hard ol{margin:0;padding:0}
+.hard .rate{font-weight:700;color:var(--bad)}
+.sec-title{font-family:var(--f-display);font-size:1.1rem;color:var(--hema)}
+.set-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media (max-width:560px){.set-grid{grid-template-columns:1fr}}
+.check{display:flex;gap:8px;align-items:center}
+.inline-confirm{border:1.5px solid var(--bad);border-radius:12px;padding:12px;background:var(--bad-soft)}
+.toast{position:fixed;bottom:calc(18px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:12px;font-weight:600;z-index:50;max-width:calc(100% - 32px);text-align:center}
+#fx{position:fixed;inset:0;pointer-events:none;z-index:40;width:100%;height:100%}
+.pop{animation:pop .35s ease-out}
+@keyframes pop{0%{transform:scale(.97);opacity:.4}100%{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap" id="app" dir="rtl" lang="ar">
+  <header class="letterhead" aria-label="الكليشة الرسمية">
+    <div class="lh-grid">
+      <div class="lh-right">المملكة العربية السعودية<br>وزارة التعليم<br>المتوسطة الثامنة عشرة</div>
+      <div class="lh-center"><strong>مسابقة تفاعلية في مادة العلوم</strong><br>الصف الثالث المتوسط<br>إعداد وتنفيذ: معلمة العلوم منى باعبيد</div>
+      <div class="lh-left" id="logoBox"><div class="logo-slot">مكان شعار<br>وزارة التعليم</div></div>
+    </div>
+    <div class="lh-rule"></div>
+  </header>
+
+  <section class="hero">
+    <div class="lens"><canvas id="lens" width="240" height="240" aria-hidden="true"></canvas></div>
+    <div>
+      <h1>تحدي علماء الخلية</h1>
+      <div class="sub">رحلة داخل عالم الخلية</div>
+      <p class="lesson">الدرس الثاني: علم الوراثة</p>
+    </div>
+  </section>
+
+  <nav class="nav" id="nav">
+    <button class="tab" data-view="home">المسابقة</button>
+    <button class="tab" data-view="board">لوحة المتصدرات</button>
+    <button class="tab" data-view="teacher" id="tabTeacher" hidden>لوحة المعلمة</button>
+    <span class="spacer"></span>
+    <span class="mode" id="mode">جارٍ الاتصال…</span>
+    <button class="iconbtn" id="soundBtn" aria-pressed="false">الصوت: متوقف</button>
+  </nav>
+
+  <main id="main"></main>
+</div>
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<script>
+document.documentElement.setAttribute('dir','rtl');document.documentElement.setAttribute('lang','ar');
+/* ============ Utilities ============ */
+const $=s=>document.querySelector(s);
+const AR='٠١٢٣٤٥٦٧٨٩';
+const n=x=>String(x).replace(/\d/g,d=>AR[d]);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function fmtT(ms){ms=Math.max(0,Math.round(ms/1000));const m=Math.floor(ms/60),s=ms%60;return n(`${m}:${String(s).padStart(2,'0')}`)}
+const tSpan=ms=>`<span class="num" dir="ltr">${fmtT(ms)}</span>`;
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+const LS={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+function hash(s){let h=2166136261;for(const c of s){h^=c.codePointAt(0);h=Math.imul(h,16777619)}return (h>>>0).toString(36)}
+const fmtDate=d=>{try{return new Intl.DateTimeFormat('ar-SA-u-ca-gregory-nu-arab',{day:'numeric',month:'short',year:'numeric'}).format(new Date(d))}catch(e){return n(new Date(d).toLocaleDateString())}};
+const fmtHijri=d=>{try{return new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-arab',{day:'numeric',month:'long',year:'numeric'}).format(new Date(d))}catch(e){return ''}};
+let toastT;function toast(m){let t=$('.toast');if(!t){t=document.createElement('div');t.className='toast';t.setAttribute('role','status');document.body.appendChild(t)}t.textContent=m;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>t.hidden=true,2800)}
+
+/* ============ Curriculum content (pages 88–98) ============ */
+const SK={R:'تذكر',U:'فهم',A:'تطبيق',X:'تحليل واستنتاج'};
+const TYPE={mcq:'اختيار من متعدد',tf:'صح أو خطأ',fill:'إكمال الفراغ',match:'توصيل المفاهيم',order:'ترتيب الأحداث',img:'تحليل شكل علمي',sc:'موقف علمي'};
+const LEVELS=[
+{name:'الصفات الوراثية',topic:'الوراثة والجينات المتقابلة وعلم الوراثة',icon:'family',qs:[
+ {t:'mcq',sk:'R',q:'الوراثة هي:',o:['انتقال الصفات الوراثية من الآباء إلى الأبناء','دراسة تركيب الخلية ومكوناتها','انقسام الخلية إلى خليتين','تضاعف DNA قبل الانقسام'],a:0,why:'الوراثة هي انتقال الصفات الوراثية من الآباء إلى الأبناء.'},
+ {t:'fill',sk:'R',q:'تُسمى أزواج الجينات المسؤولة عن صفة محددة ___، وتُعرف دراسة كيفية انتقال الصفات الوراثية وتفاعلها فيما بينها بـ ___.',bank:['الجينات المتقابلة','علم الوراثة','الطفرات','الانقسام المنصّف'],a:['الجينات المتقابلة','علم الوراثة'],why:'تُسمى أزواج الجينات المسؤولة عن صفة محددة الجينات المتقابلة (الأليل)، ودراسة انتقال الصفات وتفاعلها هي علم الوراثة.'},
+ {t:'tf',sk:'U',q:'تنفصل الجينات المتقابلة بعضها عن بعض في أثناء الانقسام المنصّف، فتحصل كل خلية جنسية على أحد الجينين المتقابلين.',a:true,why:'تنفصل الجينات المتقابلة بعضها عن بعض أثناء انفصال الكروموسومات خلال الانقسام المنصّف، وتتوزع على الخلايا الجنسية الناتجة، بحيث تحصل كل خلية على أحد الجينات المتقابلة.'},
+ {t:'img',fig:'dimple',sk:'X',q:'يوضح الشكل توزيع جينات صفة الغمازات (D وجود الغمازات، d اختفاؤها). ما الجينان المتقابلان في البويضة المخصبة (س)؟',o:['Dd','DD','dd','D فقط'],a:0,why:'يمنح كل من الأبوين كروموسومًا واحدًا خلال الإخصاب؛ فالحيوان المنوي يحمل D والبويضة تحمل d، فينتج في الفرد الجديد جينان متقابلان Dd.'},
+ {t:'mcq',sk:'U',q:'كيف يحصل الفرد الجديد على جينين متقابلين لكل صفة؟',o:['يمنح كل من الأبوين كروموسومًا واحدًا خلال الإخصاب','يحصل على الجينين من الأب فقط','يحصل على الجينين من الأم فقط','تتكوّن الجينات في الفرد بعد ولادته'],a:0,why:'يمنح كل من الأبوين خلال الإخصاب كروموسومًا واحدًا، وينتج عن ذلك جينان متقابلان للصفة في الفرد الجديد.'},
+ {t:'sc',sk:'A',q:'لاحظت سارة أن شكل أنفها ولون عينيها يشبهان أباها. ما التفسير العلمي لذلك؟',o:['ورثت عن أبيها جينات محمولة على الكروموسومات تتحكم في هذه الصفات','اكتسبت هذه الصفات بالتعلم','سبب ذلك نوع الغذاء الذي تتناوله','سبب ذلك حدوث طفرة'],a:0,why:'صفات لون العيون وشكل الأنف وغيرها أمثلة على الصفات التي نرثها من والدينا، وتتحكم فيها الجينات المحمولة على الكروموسومات.'}
+]},
+{name:'مندل',topic:'مندل مؤسس علم الوراثة',icon:'pea',qs:[
+ {t:'mcq',sk:'R',q:'في أي عام بدأ مندل تجاربه على نبات البازلاء؟',o:['١٨٥٦م','١٩٠٠م','١٩٥٣م','١٨٠٠م'],a:0,why:'بدأ مندل تجاربه على نبات البازلاء في عام ١٨٥٦م.'},
+ {t:'order',sk:'R',q:'رتبي الأحداث المتعلقة بمندل وتجاربه حسب حدوثها:',items:['بدأ اهتمامه بالنباتات منذ طفولته في بستان والده','بدأ تجاربه على نبات البازلاء','قدّم نتائجه حول نبات البازلاء بعد ثماني سنوات','توصّل ثلاثة علماء ـ كلٌّ على حدة ـ إلى النتائج نفسها'],why:'اهتم مندل بالنباتات منذ طفولته، وبدأ تجاربه عام ١٨٥٦م، وقدم نتائجه بعد ثماني سنوات، وأُهملت حتى عام ١٩٠٠م حين توصل ثلاثة علماء إلى النتائج نفسها.'},
+ {t:'tf',sk:'R',q:'كان مندل أول من تتبّع صفة واحدة عبر أكثر من جيل، وأول من استعمل الاحتمالات لتفسير نتائج تجاربه.',a:true,why:'كان مندل أول من تتبع صفة واحدة عبر أكثر من جيل، كما كان أول من استعمل الاحتمالات لتفسير نتائج تجاربه.'},
+ {t:'match',sk:'U',q:'صِلي كل عبارة بما يناسبها:',pairs:[['معظم العلماء قبل مندل','اعتمدوا على الملاحظات والوصف ودرسوا أكثر من صفة في التجربة الواحدة'],['مندل','تتبّع صفة واحدة عبر أكثر من جيل'],['عام ١٩٠٠م','توصّل ثلاثة من علماء النبات إلى النتائج التي توصّل إليها مندل'],['ثمانية أعوام','درس مندل خلالها قرابة ٣٠٠٠٠ نبتة بازلاء']],why:'هذه الحقائق كما وردت في فقرة مندل مؤسس علم الوراثة وفقرة دور الاحتمالات.'},
+ {t:'mcq',sk:'X',q:'لماذا يُلقّب مندل بمؤسس علم الوراثة؟',o:['لأنه أول من فسّر انتقال الصفات من جيل إلى آخر بتتبع صفة واحدة واستعمال الاحتمالات، وأكد العلماء نتائجه عام ١٩٠٠م','لأنه اكتشف تركيب جزيء DNA','لأنه اكتشف الكروموسومات تحت المجهر','لأنه درس أكثر من صفة في التجربة الواحدة بالملاحظة والوصف'],a:0,why:'استعمل مندل الطريقة العلمية بدقة، وتتبع صفة واحدة عبر أجيال، واستعمل الاحتمالات، ومنذ أن توصّل العلماء إلى نتائجه نفسها عام ١٩٠٠م عُرف بمؤسس علم الوراثة.'},
+ {t:'mcq',sk:'U',q:'على الرغم من أن مندل لم يعرف DNA أو الجينات أو الكروموسومات، إلا أنه:',o:['نجح في تفسير كيفية انتقال الصفات من الآباء إلى الأبناء وتمثيلها رياضيًا','اكتشف تركيب الكروموسومات','لم يتمكن من تفسير أي نتيجة','اعتمد على الوصف فقط'],a:0,why:'على الرغم من عدم معرفة مندل بـ DNA أو الجينات أو الكروموسومات، إلا أنه نجح في تفسير كيفية انتقال الصفات وتمثيلها رياضيًا، وأدرك وجود عوامل تسبب ظهور صفات محددة.'}
+]},
+{name:'في الحديقة',topic:'النقية والهجينة، والعوامل السائدة والمتنحية',icon:'pod',qs:[
+ {t:'match',sk:'R',q:'حسب الجدول ١، صِلي كل صفة بنتيجتها في تجارب مندل:',pairs:[['لون البذور','الأصفر سائد على الأخضر'],['لون القرون','الأخضر سائد على الأصفر'],['لون الأزهار','الأرجواني سائد على الأبيض'],['طول ساق النبات','الطويل سائد على القصير']],why:'هذه الصفات السائدة والمتنحية كما في الجدول ١: مقارنة الصفات الوراثية التي قام بها مندل.'},
+ {t:'mcq',sk:'R',q:'يحمل المخلوق الحي صفة وراثية نقية عندما:',o:['تظهر فيه الصفة الوراثية نفسها جيلًا بعد جيل','يحصل على جينين متقابلين مختلفين','تختفي الصفة في الجيل التالي','يتكاثر تكاثرًا لاجنسيًا'],a:0,why:'المخلوق الحي يحمل صفة وراثية نقية عندما تظهر فيه الصفة الوراثية نفسها جيلًا بعد جيل.'},
+ {t:'mcq',sk:'U',q:'حسب الجدول ١، أيّ الصفات الآتية متنحية في نبات البازلاء؟',o:['الأزهار الطرفية','البذور الملساء','القرون المنتفخة','الساق الطويلة'],a:0,why:'في الجدول ١: موقع الأزهار المحوري سائد والطرفي متنحٍّ، والبذور الملساء والقرون المنتفخة والساق الطويلة صفات سائدة.'},
+ {t:'fill',sk:'R',q:'تُسمى عملية استعمال حبوب لقاح من أزهار نبات لتلقيح أزهار نبات آخر التلقيح ___، والعامل الذي ساعد على ظهور صفة طول الساق يُسمى العامل ___.',bank:['الخلطي','السائد','الذاتي','المتنحي'],a:['الخلطي','السائد'],why:'سُميت هذه العملية التلقيح الخلطي، والعامل الذي ساعد على ظهور صفة طول الساق هو العامل السائد.'},
+ {t:'sc',sk:'A',q:'لقّح مندل أزهار نباتات بازلاء نقية قصيرة الساق بحبوب لقاح من نباتات نقية طويلة الساق. ماذا ظهر عندما زرع البذور الناتجة؟',o:['كانت النباتات الناتجة كلها طويلة الساق','كانت النباتات الناتجة كلها قصيرة الساق','نصفها طويل ونصفها قصير','نباتات متوسطة الطول'],a:0,why:'كانت كل النباتات الناتجة طويلة الساق، ولم يظهر أي نبات قصير الساق؛ لأن عامل طول الساق سائد.'},
+ {t:'tf',sk:'U',q:'سمّى مندل النباتات الناتجة عن تلقيح نباتين يحملان صفتين متضادتين نباتات هجينة؛ لأنها حصلت على جينين متقابلين مختلفين للصفة الوراثية من كلا الوالدين.',a:true,why:'سمى مندل هذه النباتات هجينة؛ لأنها حصلت على جينين متقابلين مختلفين للصفة الوراثية من كلا الوالدين.'},
+ {t:'mcq',sk:'X',q:'لماذا يزرع الفلاحون البذور التي تحمل الصفة النقية؟',o:['لكي تظهر الصفة المرغوبة نفسها في النباتات جيلًا بعد جيل','لأنها تحتوي على جينات متقابلة مختلفة','لكي تختفي الصفة في الجيل التالي','لأنها تتكاثر بالتبرعم'],a:0,why:'الصفة النقية تظهر فيها الصفة الوراثية نفسها جيلًا بعد جيل، فيضمن الفلاح ظهور الصفة المرغوبة.'}
+]},
+{name:'تجارب مندل',topic:'تجربة لون القرون ودور الاحتمالات',icon:'coin',qs:[
+ {t:'img',fig:'pods',sk:'U',q:'يوضح الشكل تجربة مندل على لون القرون. ما لون قرون أفراد الجيل الأول؟',o:['جميعها خضراء','جميعها صفراء','٣ خضراء : ١ صفراء','نصفها أخضر ونصفها أصفر'],a:0,why:'الأبوان ينتجان جيلًا جميع أفراده ذوو قرون خضراء، أما الصفة المتنحية (اللون الأصفر) فلا تظهر في أفراد الجيل الأول.'},
+ {t:'mcq',sk:'R',q:'ما نسبة لون القرون التي حصل عليها مندل في الجيل الثاني؟',o:['٣ خضراء : ١ صفراء','١ خضراء : ١ صفراء','جميعها خضراء','١ خضراء : ٣ صفراء'],a:0,why:'اكتشف مندل أن أفراد الجيل الثاني لديها الصفتان بنسبة (٣) خضراء إلى (١) صفراء.'},
+ {t:'tf',sk:'U',q:'اختفت الصفة المتنحية في الجيل الأول من تجربة لون القرون، ثم ظهرت مرة أخرى في الجيل الثاني.',a:true,why:'لم تظهر القرون الصفراء في الجيل الأول، ثم ظهرت الصفة المتنحية مرة أخرى في الجيل الثاني.'},
+ {t:'mcq',sk:'R',q:'الاحتمالات فرع من فروع:',o:['الرياضيات، يساعد على توقع فرصة حدوث شيء ما','الكيمياء، يدرس تفاعل المواد','علم الأحياء الدقيقة','الفيزياء، يدرس الحركة'],a:0,why:'الاحتمالات فرع من فروع الرياضيات، وهي تساعد على توقع فرصة حدوث شيء ما.'},
+ {t:'sc',sk:'A',q:'اختلفت طالبتان على اختيار برنامج، فرمتا قطعة نقد في الهواء. ما احتمال ظهور الصورة؟',o:['٥٠٪','٢٥٪','٧٥٪','١٠٠٪'],a:0,why:'لقطعة النقد وجهان؛ فهناك احتمالان: الصورة أو الكتابة، لذا فإن احتمال ظهور الصورة هو ٥٠٪.'},
+ {t:'mcq',sk:'X',q:'لماذا كانت نتائج مندل لدراسة الصفة الواحدة دقيقة جدًا؟',o:['لأنه درس أعدادًا كبيرة من النباتات، مما زاد من فرصة رؤية النماذج المتكررة','لأنه درس عددًا قليلًا من النباتات','لأنه اعتمد على الوصف دون الأرقام','لأنه درس عدة صفات في وقت واحد'],a:0,why:'نظرًا إلى أنه كان يحصل على أعداد كبيرة من النباتات (قرابة ٣٠٠٠٠ نبتة خلال ثماني سنوات) كانت نتائجه دقيقة جدًا.'}
+]},
+{name:'الطرز الجينية',topic:'الطرز الجينية والشكلية، والجينات المتماثلة وغير المتماثلة',icon:'letters',qs:[
+ {t:'match',sk:'U',q:'صِلي كل مصطلح بمعناه:',pairs:[['الطرز الجينية','شفرة الحروف التي تمثل الجينات في المخلوق الحي'],['الطرز الشكلية','الصفات المظهرية للمخلوق الحي وسلوكه الناتجة عن الطرز الجينية'],['جينات متماثلة','جينان متقابلان متماثلان مثل TT'],['جينات غير متماثلة','جينان متقابلان مختلفان مثل Tt']],why:'هذه التعريفات كما وردت في الدرس.'},
+ {t:'mcq',sk:'R',q:'في مربع بانيت يُعبَّر عن الجين السائد بـ:',o:['الحرف الكبير','الحرف الصغير','رقم','لون مختلف'],a:0,why:'يُستعمل في مربع بانيت الحرف الكبير للتعبير عن الجين السائد، والحرف الصغير للتعبير عن الجين المتنحي.'},
+ {t:'sc',sk:'A',q:'لون أزهار نبات فم السمكة أحمر. ماذا يمثل اللون الأحمر؟',o:['الطراز الشكلي لصفة لون الأزهار','الطراز الجيني لصفة لون الأزهار','الجين المتنحي','الكروموسوم المسؤول عن الصفة'],a:0,why:'إذا كان لون الأزهار في نبات فم السمكة أحمر فإن الطراز الشكلي للون الأزهار هو اللون الأحمر.'},
+ {t:'fill',sk:'A',q:'نبات بازلاء طويل الساق متماثل الجينات يُكتب طرازه الجيني ___، ونبات قصير الساق متماثل الجينات يُكتب ___.',bank:['TT','tt','Tt','T'],a:['TT','tt'],why:'تبعًا لتجارب مندل تُكتب TT لمتماثل الجينات لصفة طول الساق (الصفة السائدة)، وtt لمتماثل الجينات لصفة قصر الساق (الصفة المتنحية).'},
+ {t:'tf',sk:'U',q:'جميع النباتات الهجينة التي أنتجها مندل كانت متماثلة الجينات لصفة الطول.',a:false,why:'جميع النباتات المهجنة التي أنتجها مندل غير متماثلة الجينات لصفة الطول Tt.'},
+ {t:'sc',sk:'X',q:'نبات بازلاء طويل الساق. هل يكفي النظر إلى طول ساقه لمعرفة طرازه الجيني؟',o:['لا؛ فقد يكون متماثل الجينات TT أو غير متماثل الجينات Tt','نعم؛ طرازه الجيني دائمًا TT','نعم؛ طرازه الجيني دائمًا Tt','نعم؛ طرازه الجيني دائمًا tt'],a:0,why:'صفة طول الساق سائدة، وتظهر في المتماثل TT وفي غير المتماثل Tt؛ فالطراز الشكلي وحده لا يحدد الطراز الجيني.'},
+ {t:'mcq',sk:'U',q:'أين توجد الجينات المتقابلة لصفة وراثية في معظم خلايا الجسم؟',o:['على أزواج الكروموسومات المتماثلة داخل النواة','في الرايبوسومات','في الغشاء البلازمي','في السيتوبلازم'],a:0,why:'تحتوي معظم الخلايا على جينين متقابلين على الأقل للصفة الواحدة، وتكون محمولة على أزواج الكروموسومات المتماثلة داخل النواة.'}
+]},
+{name:'مربع بانيت',topic:'مربع بانيت وحساب النسبة ومبادئ علم الوراثة',icon:'grid',qs:[
+ {t:'order',sk:'U',q:'رتبي خطوات رسم مربع بانيت:',items:['اكتبي الجينات المتقابلة لأحد الأبوين في الصف العلوي، بحيث يحتوي كل مربع على حرف واحد','اكتبي الجينات المتقابلة للأب الآخر في العمود الأول','املئي المربعات بزوج من الجينات من كلا الأبوين','اقرئي الأحرف داخل المربعات بوصفها الطرز الجينية المحتملة للأبناء'],why:'تُمثَّل جينات أحد الأبوين في الصف العلوي، وجينات الآخر في العمود الأول، ثم تُملأ المربعات، فتمثل الأحرف الطرز الجينية المحتملة للأبناء.'},
+ {t:'img',fig:'pb',sk:'A',q:'تزاوج قط لون شعره أسود غير متماثل الجينات (Bb) مع قطة شعرها أشقر (bb). باستعمال مربع بانيت في الشكل، ما احتمال ولادة قط شعره أسود؟',o:['٥٠٪','٢٥٪','٧٥٪','١٠٠٪'],a:0,why:'هناك أربعة نواتج محتملة: Bb مرتان وbb مرتان؛ فنسبة الشعر الأسود = ٢ ÷ ٤ = ١ ÷ ٢ = ٥٠٪.'},
+ {t:'img',fig:'py',sk:'A',q:'في نبات البازلاء، اللون الأصفر للبذور (Y) سائد على اللون الأخضر (y). باستعمال مربع بانيت في الشكل، ما احتمال ظهور نباتات بذورها صفراء؟',o:['٧٥٪','٥٠٪','٢٥٪','١٠٠٪'],a:0,why:'النواتج: YY مرة، وYy مرتان، وyy مرة؛ فالبذور الصفراء في ٣ من ٤ = ٧٥٪.'},
+ {t:'img',fig:'py',sk:'A',q:'باستعمال مربع بانيت نفسه، ما احتمال ظهور نباتات طرازها الجيني yy؟',o:['٢٥٪','٥٠٪','٧٥٪','صفر٪'],a:0,why:'يظهر الطراز الجيني yy في مربع واحد من أربعة مربعات = ٢٥٪.'},
+ {t:'tf',sk:'U',q:'من مبادئ علم الوراثة: عندما ينفصل زوج الكروموسومات خلال الانقسام المنصّف فإن الجينات المتقابلة للصفة الواحدة تنفصل، بحيث يتحرك واحد منها لكل خلية جنسية جديدة.',a:true,why:'هذا هو المبدأ الثالث في الجدول ٢: مبادئ علم الوراثة.'},
+ {t:'sc',sk:'X',q:'لُقّحت ذبابة فاكهة طويلة الجناح غير نقية (Ll) مع ذبابة فاكهة قصيرة الجناح نقية (ll)، علمًا بأن صفة طول الجناح سائدة. ما نسبة الأبناء قصيري الجناح؟',o:['٥٠٪','٢٥٪','٧٥٪','صفر٪'],a:0,why:'مربع بانيت: Ll مرتان وll مرتان؛ فالأبناء قصيرو الجناح (ll) يمثلون ٢ من ٤ = ٥٠٪.'},
+ {t:'mcq',sk:'X',q:'أيٌّ مما يأتي ليس من مبادئ علم الوراثة الواردة في الجدول ٢؟',o:['يرث الفرد جميع جيناته من أحد الأبوين فقط','تتحكم الجينات المتقابلة المحمولة على الكروموسومات في الصفات الوراثية','يكون تأثير الجينات المتقابلة سائدًا أو متنحيًا','تنفصل الجينات المتقابلة للصفة الواحدة خلال الانقسام المنصّف'],a:0,why:'مبادئ الجدول ٢ ثلاثة: تحكم الجينات المتقابلة في الصفات، وكون تأثيرها سائدًا أو متنحيًا، وانفصالها خلال الانقسام المنصّف. أما الفرد فيرث جينًا من كل أب.'}
+]}
+];
+LEVELS.forEach((L,i)=>L.qs.forEach((q,j)=>{q.id=`L${i+1}Q${j+1}`;q.lv=i}));
+const ALLQ=LEVELS.flatMap(L=>L.qs);
+const MAXPTS=ALLQ.length*15;
+
+/* ============ Figures (drawn schematics after the textbook figures) ============ */
+const T='font-family="IBM Plex Sans Arabic,Tahoma,sans-serif"';
+const LT='font-family="Georgia,serif" direction="ltr"';
+const GREEN='#5E9F45',YEL='#E2BC3A';
+function chrom(x,y,a,b){return `<g><rect x="${x-14}" y="${y-28}" width="10" height="56" rx="5" fill="var(--eosin)"/><rect x="${x+4}" y="${y-28}" width="10" height="56" rx="5" fill="var(--eosin)"/><text x="${x-22}" y="${y+5}" text-anchor="middle" font-size="14" font-weight="700" fill="var(--ink)" ${LT}>${a}</text><text x="${x+22}" y="${y+5}" text-anchor="middle" font-size="14" font-weight="700" fill="var(--ink)" ${LT}>${b}</text></g>`}
+function gamete(x,y,g,lab){return `<circle cx="${x}" cy="${y}" r="20" fill="var(--gold-soft)" stroke="var(--gold)" stroke-width="2"/><text x="${x}" y="${y+6}" text-anchor="middle" font-size="16" font-weight="700" fill="var(--ink)" ${LT}>${g}</text><text x="${x}" y="${y+38}" text-anchor="middle" font-size="12" fill="var(--muted)" ${T}>${lab}</text>`}
+function punnett(top,side,cells,tl,sl){const s=56,x0=120,y0=50;let o=`<text x="${x0+s}" y="22" text-anchor="middle" font-size="13" fill="var(--muted)" ${T}>${tl}</text><text x="${x0+2*s+80}" y="${y0+s+s/2}" text-anchor="middle" font-size="13" fill="var(--muted)" ${T}>${sl}</text>`;
+ top.forEach((g,i)=>o+=`<rect x="${x0+(1-i)*s}" y="${y0-26}" width="${s}" height="26" fill="var(--hema-soft)" stroke="var(--line)"/><text x="${x0+(1-i)*s+s/2}" y="${y0-8}" text-anchor="middle" font-size="16" font-weight="700" fill="var(--hema)" ${LT}>${g}</text>`);
+ side.forEach((g,j)=>o+=`<rect x="${x0+2*s}" y="${y0+j*s}" width="30" height="${s}" fill="var(--eosin-soft)" stroke="var(--line)"/><text x="${x0+2*s+15}" y="${y0+j*s+s/2+6}" text-anchor="middle" font-size="16" font-weight="700" fill="var(--eosin)" ${LT}>${g}</text>`);
+ cells.forEach((row,j)=>row.forEach((c,i)=>o+=`<rect x="${x0+(1-i)*s}" y="${y0+j*s}" width="${s}" height="${s}" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"/><text x="${x0+(1-i)*s+s/2}" y="${y0+j*s+s/2+6}" text-anchor="middle" font-size="17" font-weight="700" fill="var(--ink)" ${LT}>${c}</text>`));
+ return `<svg viewBox="0 0 360 180" width="360" role="img" aria-label="مربع بانيت">${o}</svg>`}
+function podShape(x,y,c,w){return `<path d="M${x-w/2} ${y} Q${x} ${y-16} ${x+w/2} ${y} Q${x} ${y+16} ${x-w/2} ${y}Z" fill="${c}" stroke="var(--ink)" stroke-width="1"/>`}
+const FIGS={
+dimple:()=>`<svg viewBox="0 0 440 220" width="440" role="img" aria-label="أب جيناه D D وأم جيناها d d، ينتج حيوان منوي D وبويضة d، ثم بويضة مخصبة مجهولة">
+ <defs><marker id="da" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--eosin)"/></marker></defs>
+ ${chrom(390,60,'D','D')}<text x="390" y="110" text-anchor="middle" font-size="13" fill="var(--ink)" ${T}>ذكر</text>
+ ${chrom(390,165,'d','d')}<text x="390" y="214" text-anchor="middle" font-size="13" fill="var(--ink)" ${T}>أنثى</text>
+ <line x1="350" y1="60" x2="290" y2="60" stroke="var(--eosin)" stroke-width="3" marker-end="url(#da)"/><line x1="350" y1="165" x2="290" y2="165" stroke="var(--eosin)" stroke-width="3" marker-end="url(#da)"/>
+ <text x="320" y="50" text-anchor="middle" font-size="11" fill="var(--muted)" ${T}>انقسام منصّف</text><text x="320" y="155" text-anchor="middle" font-size="11" fill="var(--muted)" ${T}>انقسام منصّف</text>
+ ${gamete(262,60,'D','حيوان منوي')}${gamete(262,165,'d','بويضة')}
+ <path d="M240 64 Q180 112 140 112 M240 160 Q180 112 140 112" stroke="var(--eosin)" stroke-width="3" fill="none"/><line x1="150" y1="112" x2="128" y2="112" stroke="var(--eosin)" stroke-width="3" marker-end="url(#da)"/>
+ <text x="190" y="100" text-anchor="middle" font-size="11" fill="var(--muted)" ${T}>إخصاب</text>
+ <circle cx="80" cy="112" r="42" fill="var(--hema-soft)" stroke="var(--hema)" stroke-width="2.5"/><text x="80" y="122" text-anchor="middle" font-size="26" font-weight="700" fill="var(--ink)" ${T}>س</text><text x="80" y="172" text-anchor="middle" font-size="12" fill="var(--muted)" ${T}>بويضة مخصبة</text></svg>`,
+pods:()=>`<svg viewBox="0 0 420 240" width="420" role="img" aria-label="أبوان قرنه أخضر وقرنه أصفر، وجيل أول مجهول اللون">
+ <defs><marker id="pa" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--ink)"/></marker></defs>
+ <text x="210" y="22" text-anchor="middle" font-size="14" font-weight="700" fill="var(--ink)" ${T}>الآباء</text>
+ ${podShape(300,50,GREEN,120)}<text x="300" y="82" text-anchor="middle" font-size="12" fill="var(--muted)" ${T}>قرن أخضر (سائد)</text>
+ ${podShape(120,50,YEL,120)}<text x="120" y="82" text-anchor="middle" font-size="12" fill="var(--muted)" ${T}>قرن أصفر (متنحٍّ)</text>
+ <line x1="210" y1="92" x2="210" y2="122" stroke="var(--ink)" stroke-width="2.5" marker-end="url(#pa)"/>
+ <text x="210" y="142" text-anchor="middle" font-size="14" font-weight="700" fill="var(--ink)" ${T}>الجيل الأول</text>
+ ${[0,1,2,3].map(i=>`${podShape(75+i*90,185,'var(--surface-2)',74)}<text x="${75+i*90}" y="191" text-anchor="middle" font-size="16" font-weight="700" fill="var(--muted)" ${T}>؟</text>`).join('')}</svg>`,
+pb:()=>punnett(['B','b'],['b','b'],[['Bb','bb'],['Bb','bb']],'القط الأسود','القطة الشقراء'),
+py:()=>punnett(['Y','y'],['Y','y'],[['YY','Yy'],['Yy','yy']],'الأب Yy','الأم Yy')
+};
+const ICONS={
+family:`<svg viewBox="0 0 32 32"><circle cx="10" cy="9" r="4" fill="var(--hema)"/><circle cx="22" cy="9" r="4" fill="var(--eosin)"/><circle cx="16" cy="20" r="3.5" fill="var(--gold)"/><path d="M4 22q6-8 12 0M16 22q6-8 12 0M11 30q5-6 10 0" stroke="var(--muted)" stroke-width="2" fill="none"/></svg>`,
+pea:`<svg viewBox="0 0 32 32"><path d="M16 30V12" stroke="${GREEN}" stroke-width="2.5"/><path d="M16 14q-10-2-10-10 8 0 10 10zM16 14q10-2 10-10-8 0-10 10z" fill="#B58BC7"/></svg>`,
+pod:`<svg viewBox="0 0 32 32"><path d="M2 18Q16 4 30 14Q16 28 2 18Z" fill="${GREEN}"/><circle cx="10" cy="16" r="2.5" fill="#CFE8B8"/><circle cx="16" cy="15" r="2.5" fill="#CFE8B8"/><circle cx="22" cy="15" r="2.5" fill="#CFE8B8"/></svg>`,
+coin:`<svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="12" fill="var(--gold-soft)" stroke="var(--gold)" stroke-width="2.5"/><text x="16" y="21" text-anchor="middle" font-size="12" font-weight="700" fill="var(--gold)" ${LT}>%</text></svg>`,
+letters:`<svg viewBox="0 0 32 32"><text x="16" y="22" text-anchor="middle" font-size="16" font-weight="700" fill="var(--hema)" ${LT}>Tt</text></svg>`,
+grid:`<svg viewBox="0 0 32 32"><rect x="5" y="5" width="22" height="22" fill="var(--surface)" stroke="var(--hema)" stroke-width="2"/><path d="M16 5v22M5 16h22" stroke="var(--hema)" stroke-width="2"/><rect x="16" y="16" width="11" height="11" fill="var(--eosin-soft)"/></svg>`
+};
+
+/* ============ App state ============ */
+const DEF_CFG={round:'r1',rounds:[{id:'r1',label:'الجولة الأولى',at:Date.now()}],retries:2,allowReplay:false,open:true,logo:null};
+let CFG={...DEF_CFG};
+let db=null,user=null,downloads=null,assets=null,uid=null,isOwner=false,capsReady=false;
+let BOARD=[],DETAILS={},boardLoaded=false;
+let view='home';
+let S=null; // active game
+let sound=LS.get('cc_sound',false);
+const online=()=>!!(db&&uid);
+
+/* ============ Capabilities ============ */
+(async()=>{
+  try{
+    if(window.claude&&window.claude.use){
+      const r=await Promise.all(['db','user','downloads','assets'].map(k=>window.claude.use(k).catch(()=>null)));
+      [db,user,downloads,assets]=r;
+      if(user){try{uid=await user.id()}catch(e){} try{isOwner=await user.isOwner()}catch(e){}}
+      if(!uid)db=null;
+    }
+  }catch(e){}
+  capsReady=true;
+  if(db){
+    db.doc('config/main').onSnapshot(s=>{CFG={...DEF_CFG,...(s.exists?s.data():{})};if(!CFG.rounds||!CFG.rounds.length)CFG.rounds=DEF_CFG.rounds;applyLogo();if(view!=='quiz')render()},()=>{});
+    const t=setTimeout(()=>{if(!boardLoaded){boardLoaded=true;if(view==='board'||view==='teacher')render()}},10000);
+    db.collection('board').onSnapshot(q=>{clearTimeout(t);boardLoaded=true;BOARD=q.docs.map(d=>({id:d.id,...d.data()}));if(view==='board'||view==='teacher'||view==='home')render();else if(view==='final'&&S&&S.saved==='ok')renderFinal()},()=>{clearTimeout(t);boardLoaded=true});
+    if(isOwner)db.collection('details').onSnapshot(q=>{DETAILS={};q.docs.forEach(d=>DETAILS[d.id]=d.data());if(view==='teacher')render()},()=>{});
+  }else{boardLoaded=true}
+  $('#tabTeacher').hidden=!isOwner;
+  const m=$('#mode');
+  if(online()){m.textContent='النتائج تُحفظ في السجل المشترك';m.classList.add('on')}else{m.textContent='وضع الجهاز الواحد'}
+  if(view!=='quiz')render();
+})();
+function applyLogo(){const b=$('#logoBox');if(CFG.logo){b.innerHTML=`<img class="logo-img" src="${esc(CFG.logo)}" alt="شعار وزارة التعليم">`}else{b.innerHTML='<div class="logo-slot">مكان شعار<br>وزارة التعليم</div>'}}
+
+/* ============ Sound & effects ============ */
+let actx=null;
+function beep(kind){if(!sound)return;try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const seq={ok:[[660,.09],[880,.14]],no:[[220,.18]],win:[[523,.12],[659,.12],[784,.12],[1047,.3]],lvl:[[587,.1],[784,.18]]}[kind];let t=actx.currentTime;for(const [f,d] of seq){const o=actx.createOscillator(),g=actx.createGain();o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.18,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g).connect(actx.destination);o.start(t);o.stop(t+d+.02);t+=d*.9}}catch(e){}}
+function syncSoundBtn(){const b=$('#soundBtn');b.textContent=sound?'الصوت: مفعّل':'الصوت: متوقف';b.setAttribute('aria-pressed',String(sound))}
+$('#soundBtn').onclick=()=>{sound=!sound;LS.set('cc_sound',sound);syncSoundBtn();beep('ok')};syncSoundBtn();
+const RM=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const fx=$('#fx'),fctx=fx.getContext('2d');let parts=[],fxRun=false;
+function burst(count,spread){if(RM)return;const W=fx.width=innerWidth*devicePixelRatio,H=fx.height=innerHeight*devicePixelRatio;const cs=getComputedStyle(document.documentElement);const cols=['--eosin','--hema','--gold','--good'].map(v=>cs.getPropertyValue(v).trim());for(let i=0;i<count;i++)parts.push({x:W/2+(Math.random()-.5)*W*spread,y:H*(spread>.5?-.05:.45),vx:(Math.random()-.5)*14*devicePixelRatio,vy:(spread>.5?Math.random()*4:-Math.random()*14-4)*devicePixelRatio,r:(3+Math.random()*5)*devicePixelRatio,c:cols[i%4],life:120+Math.random()*60,round:Math.random()<.5});if(!fxRun){fxRun=true;requestAnimationFrame(tick)}}
+function tick(){fctx.clearRect(0,0,fx.width,fx.height);parts=parts.filter(p=>p.life>0&&p.y<fx.height+40);for(const p of parts){p.vy+=.35*devicePixelRatio;p.vx*=.99;p.x+=p.vx;p.y+=p.vy;p.life--;fctx.fillStyle=p.c;fctx.beginPath();if(p.round)fctx.arc(p.x,p.y,p.r,0,7);else fctx.rect(p.x,p.y,p.r*1.6,p.r);fctx.fill()}if(parts.length)requestAnimationFrame(tick);else{fxRun=false;fctx.clearRect(0,0,fx.width,fx.height)}}
+/* Microscope lens ambience */
+(function(){const c=$('#lens'),x=c.getContext('2d');const cells=Array.from({length:9},(_,i)=>({x:Math.random()*240,y:Math.random()*240,r:18+Math.random()*22,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,p:Math.random()*6}));
+function draw(){const cs=getComputedStyle(document.documentElement);const h=cs.getPropertyValue('--hema').trim(),e=cs.getPropertyValue('--eosin').trim();x.clearRect(0,0,240,240);for(const k of cells){if(!RM){k.x+=k.vx;k.y+=k.vy;k.p+=.01;if(k.x<-40)k.x=280;if(k.x>280)k.x=-40;if(k.y<-40)k.y=280;if(k.y>280)k.y=-40}x.globalAlpha=.55;x.strokeStyle=e;x.lineWidth=2.5;x.beginPath();for(let a=0;a<=6.3;a+=.2){const rr=k.r*(1+.06*Math.sin(a*3+k.p));const px=k.x+rr*Math.cos(a),py=k.y+rr*Math.sin(a);a?x.lineTo(px,py):x.moveTo(px,py)}x.closePath();x.stroke();x.globalAlpha=.8;x.fillStyle=h;x.beginPath();x.arc(k.x+k.r*.15,k.y-k.r*.1,k.r*.28,0,7);x.fill()}x.globalAlpha=1;if(!RM)requestAnimationFrame(draw)}draw()})();
+
+/* ============ Navigation ============ */
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{if((view==='quiz'||view==='levelEnd')&&S&&!S.ended){if(!confirmLeave())return}view=b.dataset.view;render()});
+function confirmLeave(){toast('أكملي المستوى الحالي أولًا؛ الوقت ما زال يُحتسب.');return false}
+function setTabs(){document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-current',(b.dataset.view===view||(view==='quiz'||view==='levelEnd'||view==='final')&&b.dataset.view==='home')?'page':'false'))}
+function render(){setTabs();const m=$('#main');
+  if(view==='home'){const ni=$('#nameIn'),typed=ni?ni.value:null,foc=document.activeElement===ni;m.innerHTML=homeHTML();bindHome();const n2=$('#nameIn');if(n2&&typed!=null){n2.value=typed;if(foc)n2.focus()}}
+  else if(view==='quiz'||view==='levelEnd'||view==='final')return;
+  else if(view==='board')m.innerHTML=boardHTML(),bindBoard();
+  else if(view==='teacher'){if(!isOwner){view='home';return render()}m.innerHTML=teacherHTML();bindTeacher()}
+}
+
+/* ============ Home ============ */
+function myEntry(){if(online()){const d=BOARD.find(b=>b.id===uid);return d&&d.entries&&d.entries[CFG.round]}const L=LS.get('cc_local',[]);return L.filter(e=>e.round===CFG.round&&e.done).sort(cmp)[0]}
+function journeyHTML(passed,cur){return `<div class="journey">${LEVELS.map((L,i)=>{const st=i<passed?'done':i===cur?'cur':'locked';return `<div class="station ${st}"><div class="ic">${ICONS[L.icon]}</div><div style="min-width:0"><h3>${n(i+1)}. ${L.name}</h3><div class="st">${esc(L.topic)}${st==='done'?' · مُجتاز':st==='locked'?' · مقفل':''}</div></div></div>`}).join('')}</div>`}
+function homeHTML(){
+  const prev=LS.get('cc_name','');const me=myEntry();
+  const blockReplay=me&&me.done&&!CFG.allowReplay;
+  return `<div class="stack pop">
+  <section class="card stack">
+    <h2>استعدي للرحلة داخل الخلية</h2>
+    <p class="muted">ستعبرين ستة مستويات تبدأ من الصفات الوراثية وتنتهي بمربع بانيت. لا يُفتح المستوى التالي إلا بعد اجتياز السابق، ويُحتسب الوقت من لحظة الضغط على «ابدئي».</p>
+    <div class="rules">
+      <div class="rule"><b>+١٠</b>لكل إجابة صحيحة</div>
+      <div class="rule"><b>حتى +٥</b>مكافأة السرعة إذا أجبتِ صحيحًا خلال ٨ ثوانٍ، وتقل حتى ٢٨ ثانية</div>
+      <div class="rule"><b>−٣</b>لكل إجابة خاطئة. اجتياز المستوى يتطلب ٦٠٪ من إجاباته صحيحة</div>
+    </div>
+    ${CFG.open===false?`<div class="note warn">المسابقة مغلقة حاليًا من قبل المعلمة.</div>`:blockReplay?`<div class="note ok">أكملتِ هذه الجولة بدرجة ${n(me.score)}. يمكنك مشاهدة ترتيبك في لوحة المتصدرات.</div>`:`
+    <form id="startForm" class="stack" novalidate>
+      <div class="field"><label for="nameIn">اسم الطالبة الثلاثي</label>
+      <input class="input" id="nameIn" maxlength="40" autocomplete="name" placeholder="مثال: نورة عبدالله القحطاني" value="${esc(prev)}"></div>
+      <div class="err" id="nameErr" hidden></div>
+      <div class="row"><button class="btn" type="submit" id="startBtn">ابدئي التحدي</button>
+      <span class="small muted">إعادة المحاولة لكل مستوى: ${CFG.retries<0?'بلا حد':CFG.retries===0?'غير متاحة':n(CFG.retries)+' مرة'}</span></div>
+    </form>`}
+    ${capsReady&&!online()?`<div class="note">هذه الصفحة تعمل الآن في <b>وضع الجهاز الواحد</b>: ستظهر نتيجتك على هذا الجهاز، وستحصلين في النهاية على <b>رمز نتيجة</b> ترسلينه للمعلمة لتضيفه إلى السجل.</div>`:''}
+  </section>
+  <section class="card stack"><h2>محطات الرحلة</h2>${journeyHTML(0,0)}</section></div>`}
+function bindHome(){const f=$('#startForm');if(!f)return;f.onsubmit=e=>{e.preventDefault();const v=$('#nameIn').value.trim().replace(/\s+/g,' ');const er=$('#nameErr');
+  if(v.length<3||!/^[؀-ۿa-zA-Z\s.'-]+$/.test(v)){er.textContent='اكتبي اسمك بالحروف (ثلاثة أحرف على الأقل).';er.hidden=false;return}
+  LS.set('cc_name',v);startGame(v)}}
+
+/* ============ Game engine ============ */
+function startGame(name){
+  S={name,round:CFG.round,start:Date.now(),lv:0,qi:0,attempt:1,levelPts:0,levelAns:[],committed:[],retriesUsed:0,levelRetries:{},allAns:[],levelStart:Date.now(),ended:false};
+  view='quiz';setTabs();if(actx&&actx.state==='suspended')actx.resume();
+  renderQ();startClock();
+}
+let clockT=null;function startClock(){clearInterval(clockT);clockT=setInterval(()=>{const c=$('#clock');if(c&&S&&!S.ended)c.innerHTML=tSpan(Date.now()-S.start)},250)}
+const curScore=()=>Math.max(0,S.committed.reduce((a,l)=>a+l.pts,0)+S.levelPts);
+function hud(){const L=LEVELS[S.lv];return `<div class="card stack" style="padding:14px 16px">
+  <div class="hud"><div class="lvname">المستوى ${n(S.lv+1)}: ${L.name}</div><span class="pill score">${n(curScore())} نقطة</span><span class="pill" id="clock">${tSpan(Date.now()-S.start)}</span></div>
+  <div class="progress" aria-label="التقدم في المستويات">${LEVELS.map((l,i)=>`<div class="seg ${i<S.lv?'done':''}"><i style="width:${i<S.lv?100:i===S.lv?Math.round(S.qi/l.qs.length*100):0}%"></i></div>`).join('')}</div>
+  <div class="small muted">السؤال ${n(S.qi+1)} من ${n(L.qs.length)}${S.attempt>1?` · المحاولة ${n(S.attempt)}`:''}</div></div>`}
+let UI=null;
+function renderQ(){
+  const q=LEVELS[S.lv].qs[S.qi];
+  const m=$('#main');
+  m.innerHTML=`<div class="stack">${hud()}<section class="card stack pop" id="qcard">
+    <div class="qmeta"><span class="chip">${TYPE[q.t]}</span><span class="chip sk">${SK[q.sk]}</span></div>
+    ${q.fig?`<div class="fig">${FIGS[q.fig]()}</div>`:''}
+    <div id="qbody"></div>
+    <div id="fb"></div>
+    <div class="qfoot"><span class="small muted" id="hint">اختاري إجابتك ثم اعتمديها.</span><button class="btn" id="submitBtn" disabled>اعتمدي الإجابة</button></div>
+  </section></div>`;
+  S.locked=false;UI=buildUI(q);$('#qbody').appendChild(UI.node);
+  $('#submitBtn').onclick=submit;
+  S.qStart=performance.now();S.locked=false;
+  window.scrollTo({top:Math.max(0,$('#main').offsetTop-12),behavior:RM?'auto':'smooth'});
+}
+function mk(tag,cls,html){const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e}
+const upd=()=>{const b=$('#submitBtn');if(b&&!S.locked)b.disabled=!UI.ready()};
+const KEYS=['أ','ب','ج','د'];
+function buildUI(q){
+  const node=mk('div','stack');
+  node.appendChild(mk('div','qtext',q.t==='fill'?'':esc(q.q)));
+  if(q.t==='mcq'||q.t==='img'||q.t==='sc'){
+    const order=shuffle(q.o.map((_,i)=>i));let sel=null;const box=mk('div','opts');const btns=[];
+    order.forEach((oi,k)=>{const b=mk('button','opt',`<span class="k">${KEYS[k]}</span><span>${esc(q.o[oi])}</span>`);b.type='button';b.setAttribute('aria-pressed','false');b.onclick=()=>{if(S.locked)return;sel=oi;btns.forEach(x=>x.setAttribute('aria-pressed',String(x===b)));upd()};b.dataset.oi=oi;btns.push(b);box.appendChild(b)});
+    node.appendChild(box);
+    return{node,ready:()=>sel!=null,check:()=>sel===q.a,reveal(){btns.forEach(b=>{b.disabled=true;const oi=+b.dataset.oi;if(oi===q.a)b.classList.add('right');else if(oi===sel)b.classList.add('wrong')})},resp:()=>sel==null?'':q.o[sel],right:()=>q.o[q.a]}}
+  if(q.t==='tf'){let sel=null;const box=mk('div','opts tf');const btns=[[true,'صح'],[false,'خطأ']].map(([v,l])=>{const b=mk('button','opt',l);b.type='button';b.setAttribute('aria-pressed','false');b.onclick=()=>{if(S.locked)return;sel=v;btns.forEach(x=>x.setAttribute('aria-pressed',String(x===b)));upd()};b.dataset.v=v;box.appendChild(b);return b});node.appendChild(box);
+    return{node,ready:()=>sel!=null,check:()=>sel===q.a,reveal(){btns.forEach(b=>{b.disabled=true;const v=b.dataset.v==='true';if(v===q.a)b.classList.add('right');else if(v===sel)b.classList.add('wrong')})},resp:()=>sel==null?'':sel?'صح':'خطأ',right:()=>q.a?'صح':'خطأ'}}
+  if(q.t==='fill'){const parts=q.q.split('___');const p=mk('p','filltext qtext');const sels=[];const bank=shuffle(q.bank);
+    parts.forEach((t,i)=>{p.appendChild(document.createTextNode(t));if(i<parts.length-1){const s=mk('select','blank');s.id=`blank${i}`;s.setAttribute('aria-label',`الفراغ ${i+1}`);s.innerHTML=`<option value="">— اختاري —</option>`+bank.map(w=>`<option>${esc(w)}</option>`).join('');s.onchange=upd;sels.push(s);p.appendChild(s)}});
+    node.firstChild.replaceWith(p);node.appendChild(mk('p','small muted','اختاري الكلمة المناسبة لكل فراغ.'));
+    return{node,ready:()=>sels.every(s=>s.value),check:()=>sels.every((s,i)=>s.value===q.a[i]),reveal(){sels.forEach((s,i)=>{s.disabled=true;const ok=s.value===q.a[i];s.classList.add(ok?'right':'wrong');if(!ok)s.insertAdjacentHTML('afterend',`<span class="fix">(${esc(q.a[i])})</span>`)})},resp:()=>sels.map(s=>s.value).join(' / '),right:()=>q.a.join(' / ')}}
+  if(q.t==='match'){const rights=shuffle(q.pairs.map(p=>p[1]));const rows=[];const box=mk('div','stack');box.style.gap='8px';
+    q.pairs.forEach(([l,r],i)=>{const row=mk('div','mrow');row.appendChild(mk('div','left',esc(l)));const s=mk('select');s.id=`m${i}`;s.setAttribute('aria-label',l);s.innerHTML=`<option value="">— اختاري ما يناسبه —</option>`+rights.map(x=>`<option>${esc(x)}</option>`).join('');s.onchange=upd;row.appendChild(s);rows.push({row,s,r});box.appendChild(row)});
+    node.appendChild(box);
+    return{node,ready:()=>rows.every(x=>x.s.value),check:()=>rows.every(x=>x.s.value===x.r),reveal(){rows.forEach(x=>{x.s.disabled=true;const ok=x.s.value===x.r;x.row.classList.add(ok?'right':'wrong');if(!ok)x.row.appendChild(mk('div','fix',`الصحيح: ${esc(x.r)}`))})},resp:()=>rows.map(x=>x.s.value).join(' | '),right:()=>q.pairs.map(p=>p[1]).join(' | ')}}
+  if(q.t==='order'){let items=shuffle(q.items);while(items.join()===q.items.join())items=shuffle(q.items);let seq=[];const ol=mk('div','olist');
+    const rb=mk('button','btn sm alt','مسح الترتيب والبدء من جديد');rb.type='button';
+    const draw=rev=>{ol.innerHTML='';items.forEach(it=>{const k=seq.indexOf(it);
+      const li=mk('button','oitem'+(k>=0?' sel':''),`<span class="pos${k>=0?'':' empty'}">${k>=0?n(k+1):'؟'}</span><span>${esc(it)}</span><span></span>`);
+      li.type='button';li.setAttribute('aria-pressed',String(k>=0));
+      if(rev){li.disabled=true;const c=q.items.indexOf(it);const ok=k===c;li.classList.add(ok?'right':'wrong');if(!ok)li.lastElementChild.innerHTML=`<span class="fix">الصحيح: ${n(c+1)}</span>`}
+      else li.onclick=()=>{if(S.locked)return;if(k>=0)seq.splice(k,1);else seq.push(it);draw();upd()};
+      ol.appendChild(li)})};
+    rb.onclick=()=>{if(S.locked)return;seq=[];draw();upd()};
+    draw();node.appendChild(ol);node.appendChild(mk('p','small muted','اضغطي على العبارات بالترتيب الصحيح من الأولى إلى الأخيرة، وسيظهر رقم كل عبارة. اضغطي على عبارة مرقّمة للتراجع عنها.'));node.appendChild(rb);
+    return{node,ready:()=>seq.length===items.length,check:()=>seq.join('|')===q.items.join('|'),reveal(){rb.hidden=true;draw(true)},resp:()=>seq.map(x=>q.items.indexOf(x)+1).join('-'),right:()=>q.items.map((_,i)=>i+1).join('-')}}
+}
+function bonus(ms){const s=ms/1000;if(s<=8)return 5;if(s>=28)return 0;return Math.round(5*(28-s)/20)}
+function submit(){
+  if(!S||S.locked||!UI.ready())return;S.locked=true;$('#submitBtn').disabled=true;
+  const q=LEVELS[S.lv].qs[S.qi];const ms=Math.round(performance.now()-S.qStart);const ok=UI.check();
+  const b=ok?bonus(ms):0;const pts=ok?10+b:-3;
+  S.levelPts+=pts;const rec={q:q.id,ok:ok?1:0,ms,pts,att:S.attempt};S.levelAns.push(rec);S.allAns.push(rec);
+  UI.reveal();
+  $('#fb').innerHTML=`<div class="feedback ${ok?'ok':'no'} pop"><h3>${ok?'إجابة صحيحة':'إجابة غير صحيحة'} <span class="pts num">(${pts>0?'+':''}${n(pts)})</span></h3>${ok&&b?`<span class="small">منها مكافأة سرعة +${n(b)}</span>`:''}<p>${esc(q.why)}</p></div>`;
+  $('.pill.score').textContent=n(curScore())+' نقطة';
+  const last=S.qi===LEVELS[S.lv].qs.length-1;
+  const btn=$('#submitBtn');btn.textContent=last?'إنهاء المستوى':'السؤال التالي';btn.disabled=false;btn.onclick=()=>{btn.disabled=true;last?endLevel():(S.qi++,renderQ())};
+  $('#hint').textContent='';
+  if(ok){beep('ok');burst(26,.15)}else beep('no');
+}
+function endLevel(){
+  const L=LEVELS[S.lv];const correct=S.levelAns.filter(a=>a.ok).length;const need=Math.ceil(L.qs.length*.6);const pass=correct>=need;
+  const lvTime=Date.now()-S.levelStart;const m=$('#main');
+  if(pass){S.committed.push({lv:S.lv,pts:S.levelPts,ans:S.levelAns.slice()});}
+  const used=S.levelRetries[S.lv]||0;const canRetry=!pass&&(CFG.retries<0||used<CFG.retries);
+  const isLast=pass&&S.lv===LEVELS.length-1;
+  if(isLast){finish(true);return}
+  if(!pass&&!canRetry){S.failedFinal={lv:S.lv,pts:S.levelPts,ans:S.levelAns.slice()};finish(false);return}
+  pass?(beep('lvl'),burst(60,.3)):beep('no');
+  view='levelEnd';setTabs();
+  m.innerHTML=`<div class="stack">${hud()}<section class="card stack pop">
+   <h2>${pass?`اجتزتِ المستوى ${n(S.lv+1)}: ${L.name}`:`لم تجتازي المستوى ${n(S.lv+1)} بعد`}</h2>
+   <div class="stats"><div class="stat"><b>${n(correct)}/${n(L.qs.length)}</b><span>إجابات صحيحة</span></div><div class="stat"><b>${S.levelPts>0?'+':''}${n(S.levelPts)}</b><span>نقاط المستوى</span></div><div class="stat"><b>${tSpan(lvTime)}</b><span>زمن المستوى</span></div><div class="stat"><b>${n(curScore())}</b><span>مجموع النقاط</span></div></div>
+   <div class="small muted">الزمن الكلي حتى الآن: ${tSpan(Date.now()-S.start)} — والوقت مستمر.</div>
+   ${pass?journeyHTML(S.lv+1,S.lv+1):`<div class="note warn">تحتاجين ${n(need)} إجابات صحيحة على الأقل. ستُعيدين أسئلة هذا المستوى، وتُلغى نقاط هذه المحاولة. المحاولات المتبقية: ${CFG.retries<0?'بلا حد':n(CFG.retries-used)}.</div>`}
+   <div class="row"><button class="btn" id="nextLv">${pass?`انطلقي إلى المستوى ${n(S.lv+2)}`:'أعيدي محاولة المستوى'}</button></div></section></div>`;
+  S.levelPts=pass?0:0;
+  $('#nextLv').onclick=()=>{if(pass){S.lv++;S.attempt=1}else{S.levelRetries[S.lv]=used+1;S.retriesUsed++;S.attempt++}S.qi=0;S.levelPts=0;S.levelAns=[];S.levelStart=Date.now();view='quiz';setTabs();renderQ()};
+}
+const cmp=(a,b)=>(b.score-a.score)||(a.timeMs-b.timeMs);
+function grade(pct){return pct>=90?'ممتاز':pct>=80?'جيد جدًا':pct>=70?'جيد':pct>=60?'مقبول':'مشاركة'}
+function achieve(g){return {'ممتاز':'عالمة خلية متميزة','جيد جدًا':'باحثة خلية متقدمة','جيد':'مستكشفة خلية','مقبول':'متدربة في مختبر الخلية','مشاركة':'مشاركة في رحلة الخلية'}[g]}
+async function finish(done){
+  S.ended=true;clearInterval(clockT);const timeMs=Date.now()-S.start;
+  const counted=[...S.committed,...(S.failedFinal?[S.failedFinal]:[])];const ans=counted.flatMap(l=>l.ans);
+  const correct=ans.filter(a=>a.ok).length,wrong=ans.length-correct;const score=Math.max(0,counted.reduce((a,l)=>a+l.pts,0));
+  const pct=Math.round(correct/ALLQ.length*100);
+  const E={name:S.name,round:S.round,score,correct,wrong,total:ALLQ.length,timeMs,date:new Date().toISOString(),done,levels:S.committed.length,retries:S.retriesUsed,pct,grade:grade(pct)};
+  const ansMap={};ans.forEach(a=>ansMap[a.q]=a.ok);
+  const D={name:S.name,round:S.round,answers:S.allAns.map(a=>({q:a.q,ok:a.ok,ms:a.ms,att:a.att})),final:ansMap};
+  S.result=E;S.detail=D;
+  const L=LS.get('cc_local',[]);L.push({...E,final:ansMap});LS.set('cc_local',L.slice(-200));
+  S.code=makeCode(E,ansMap);S.saved='pending';
+  view='final';renderFinal();
+  beep('win');burst(160,1);
+  if(online()){try{await saveOnline(E,D);S.saved='ok'}catch(e){S.saved='fail'}}else S.saved='local';
+  if(view==='final')renderFinal();
+}
+async function saveOnline(E,D){
+  const ref=db.doc('board/'+uid);const s=await ref.get();const cur=(s.exists&&s.data())||{};const ents={...(cur.entries||{})};
+  const old=ents[E.round];let keepNew=!old||better(E,old);
+  ents[E.round]=keepNew?{...E,attempts:(old?.attempts||0)+1}:{...old,attempts:(old.attempts||1)+1};
+  await ref.set({name:E.name,entries:ents,updatedAt:Date.now()});
+  if(keepNew){const dref=db.doc('details/'+uid);const ds=await dref.get();const dc=(ds.exists&&ds.data())||{};const de={...(dc.entries||{})};de[E.round]=D;await dref.set({name:E.name,entries:de,updatedAt:Date.now()})}
+}
+const better=(a,b)=>(a.done&&!b.done)||(a.done===b.done&&cmp(a,b)<0);
+function rankOf(name,round,id){const list=roundEntries(round);const i=list.findIndex(e=>id?e.id===id:e.name===name);return i<0?null:i+1}
+function roundEntries(round){if(online()){return BOARD.map(b=>b.entries&&b.entries[round]?{id:b.id,...b.entries[round]}:null).filter(Boolean).sort(cmp)}
+  const L=LS.get('cc_local',[]).filter(e=>e.round===round);const best={};L.forEach(e=>{const k=e.name;if(!best[k]||better(e,best[k]))best[k]=e});return Object.values(best).sort(cmp)}
+function renderFinal(){
+  const E=S.result;const m=$('#main');const rank=online()&&S.saved==='ok'?rankOf(E.name,E.round,uid):null;
+  m.innerHTML=`<div class="stack pop"><section class="card stack">
+   <div class="big-msg">${E.done?'أتممتِ رحلة الخلية!':'انتهت محاولتك في المسابقة'}</div>
+   ${rank===1?`<div class="champ">بطلة تحدي علماء الخلية 🏆</div>`:rank&&rank<=3?`<div class="champ">حصلتِ على المركز ${n(rank)}</div>`:''}
+   <div class="stats"><div class="stat"><b>${n(E.score)}</b><span>الدرجة من ${n(MAXPTS)}</span></div><div class="stat"><b>${n(E.correct)}</b><span>إجابات صحيحة</span></div><div class="stat"><b>${n(E.wrong)}</b><span>إجابات خاطئة</span></div><div class="stat"><b>${tSpan(E.timeMs)}</b><span>الزمن الكلي</span></div></div>
+   <p class="muted">التقدير: <b>${E.grade}</b> (${n(E.pct)}٪ من الأسئلة) · المستويات المجتازة: ${n(E.levels)} من ${n(LEVELS.length)}${E.retries?` · إعادات: ${n(E.retries)}`:''}</p>
+   ${S.saved==='pending'?`<div class="note">جارٍ حفظ النتيجة في السجل المشترك…</div>`:S.saved==='ok'?`<div class="note ok">حُفظت نتيجتك في السجل المشترك وتظهر في لوحة المتصدرات.</div>`:`<div class="note warn">${S.saved==='fail'?'تعذّر الحفظ في السجل المشترك من هذا الحساب.':'نتيجتك محفوظة على هذا الجهاز فقط.'} انسخي رمز النتيجة التالي وأرسليه لمعلمتك لتضيفه إلى السجل:</div>
+   <div class="code" id="codeBox">${S.code}</div><div class="row"><button class="btn sm alt" id="copyCode">نسخ رمز النتيجة</button></div>`}
+   <div class="row"><button class="btn alt" id="toBoard">لوحة المتصدرات</button></div></section>
+   <section class="card stack"><h2>شهادتك</h2><div class="certwrap"><canvas id="certCv" width="1240" height="877" aria-label="معاينة الشهادة"></canvas></div>
+   <div class="row" id="certActs"></div><p class="small muted" id="certNote"></p></section></div>`;
+  $('#toBoard').onclick=()=>{view='board';render()};
+  const cc=$('#copyCode');if(cc)cc.onclick=()=>copyText(S.code,$('#codeBox'));
+  const cd={name:E.name,score:E.score,grade:E.grade,done:E.done,rank:rank&&rank<=3?rank:null,date:E.date};
+  drawPreview($('#certCv'),cd);certActions($('#certActs'),$('#certNote'),cd);
+}
+function copyText(t,box){try{navigator.clipboard.writeText(t).then(()=>toast('تم النسخ'),()=>sel(box))}catch(e){sel(box)}}
+function sel(box){if(!box)return;const r=document.createRange();r.selectNodeContents(box);const s=getSelection();s.removeAllRanges();s.addRange(r);toast('حُدد الرمز، انسخيه يدويًا')}
+
+/* ============ Result code (offline transfer) ============ */
+const SALT='cc53-gen-1447';
+function makeCode(E,ansMap){const a=ALLQ.map(q=>q.id in ansMap?(ansMap[q.id]?'1':'0'):'-').join('');const p={v:1,n:E.name,r:E.round,s:E.score,c:E.correct,w:E.wrong,t:E.timeMs,d:E.date,dn:E.done?1:0,l:E.levels,rt:E.retries,a};const j=JSON.stringify(p);p.k=hash(SALT+j);const b=btoa(unescape(encodeURIComponent(JSON.stringify(p))));return 'CC4.'+b.replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
+function readCode(c){c=c.trim();if(!c.startsWith('CC4.'))throw 0;let b=c.slice(4).replace(/-/g,'+').replace(/_/g,'/');while(b.length%4)b+='=';const p=JSON.parse(decodeURIComponent(escape(atob(b))));const k=p.k;delete p.k;if(hash(SALT+JSON.stringify(p))!==k)throw 1;return p}
+
+/* ============ Certificate ============ */
+let logoImg=null,logoSrc=null;
+function getLogo(){return new Promise(r=>{if(!CFG.logo)return r(null);if(logoImg&&logoSrc===CFG.logo)return r(logoImg);const i=new Image();i.onload=()=>{logoImg=i;logoSrc=CFG.logo;r(i)};i.onerror=()=>r(null);i.src=CFG.logo})}
+async function drawCert(cv,d){
+  try{await Promise.all(['700 80px "Reem Kufi"','600 40px "IBM Plex Sans Arabic"','400 40px "IBM Plex Sans Arabic"'].map(f=>document.fonts.load(f)))}catch(e){}
+  const logo=await getLogo();
+  const W=cv.width,H=cv.height,k=W/2480,x=cv.getContext('2d');x.save();x.scale(k,k);
+  const C={bg:'#FBFCFA',ink:'#14232A',hema:'#3A3A8E',eosin:'#BE3A6F',gold:'#A97A1F',muted:'#55686B',soft:'#E4E4F6'};
+  x.fillStyle=C.bg;x.fillRect(0,0,2480,1754);
+  x.globalAlpha=.08;x.strokeStyle=C.eosin;x.lineWidth=6;
+  [[150,150],[2330,150],[150,1604],[2330,1604]].forEach(([cx,cy])=>{for(let r=60;r<=260;r+=50){x.beginPath();x.arc(cx,cy,r,0,7);x.stroke()}});
+  x.globalAlpha=1;x.strokeStyle=C.hema;x.lineWidth=22;x.strokeRect(60,60,2360,1634);x.strokeStyle=C.gold;x.lineWidth=4;x.strokeRect(100,100,2280,1554);
+  x.direction='rtl';x.textBaseline='alphabetic';
+  const F=(w,s,f)=>`${w} ${s}px ${f==='d'?'"Reem Kufi"':'"IBM Plex Sans Arabic"'}, Tahoma, sans-serif`;
+  x.fillStyle=C.ink;x.textAlign='right';x.font=F(600,40);['المملكة العربية السعودية','وزارة التعليم','المتوسطة الثامنة عشرة'].forEach((t,i)=>x.fillText(t,2290,215+i*62));
+  if(logo){const h=200,w=Math.min(380,logo.width*h/logo.height);x.drawImage(logo,190,150,w,h)}
+  x.textAlign='center';x.fillStyle=C.muted;x.font=F(500,36);x.fillText('مسابقة تفاعلية في مادة العلوم — الصف الثالث المتوسط',1240,230);
+  x.fillStyle=C.hema;x.font=F(700,124,'d');x.fillText(d.done?'شهادة تقدير وإتمام':'شهادة مشاركة',1240,470);
+  x.fillStyle=C.gold;x.fillRect(1040,510,400,6);
+  x.fillStyle=C.ink;x.font=F(400,48);x.fillText(d.done?'تُمنح هذه الشهادة للطالبة':'تُمنح هذه الشهادة للطالبة المشاركة',1240,620);
+  x.fillStyle=C.eosin;let ns=118;x.font=F(700,ns,'d');while(x.measureText(d.name).width>1900&&ns>60){ns-=6;x.font=F(700,ns,'d')}x.fillText(d.name,1240,780);
+  x.fillStyle=C.ink;x.font=F(400,46);x.fillText(d.done?'لإتمامها مسابقة «تحدي علماء الخلية – رحلة داخل عالم الخلية» في درس علم الوراثة':'لمشاركتها في مسابقة «تحدي علماء الخلية – رحلة داخل عالم الخلية» في درس علم الوراثة',1240,890);
+  const boxes=[['الدرجة النهائية',`${n(d.score)} من ${n(MAXPTS)}`],['التقدير',d.grade],['مستوى الإنجاز',achieve(d.grade)]];if(d.rank)boxes.push(['المركز',['الأول','الثاني','الثالث'][d.rank-1]]);
+  const bw=d.rank?470:560,gap=40,tot=boxes.length*bw+(boxes.length-1)*gap;let bx=1240+tot/2;
+  boxes.forEach(([l,v])=>{const x0=bx-bw;x.fillStyle=C.soft;roundRect(x,x0,960,bw,190,28);x.fill();x.fillStyle=C.muted;x.font=F(500,36);x.fillText(l,x0+bw/2,1025);x.fillStyle=C.hema;let vs=56;x.font=F(700,vs,'d');while(x.measureText(v).width>bw-40&&vs>30){vs-=4;x.font=F(700,vs,'d')}x.fillText(v,x0+bw/2,1110);bx-=bw+gap});
+  x.fillStyle=C.ink;x.font=F(400,44);x.fillText('متمنين لها دوام التفوق والنجاح',1240,1260);
+  x.textAlign='right';x.font=F(500,40);x.fillStyle=C.muted;x.fillText('معلمة العلوم',2160,1420);x.fillStyle=C.ink;x.font=F(700,52,'d');x.fillText('منى باعبيد',2160,1495);
+  x.textAlign='left';x.font=F(500,38);x.fillStyle=C.muted;x.fillText('التاريخ',320,1420);x.fillStyle=C.ink;x.font=F(600,38);x.fillText(fmtHijri(d.date),320,1480);x.fillText(fmtDate(d.date)+' م',320,1535);
+  x.textAlign='center';x.strokeStyle=C.gold;x.lineWidth=6;x.beginPath();x.arc(1240,1450,130,0,7);x.stroke();x.lineWidth=2;x.beginPath();x.arc(1240,1450,112,0,7);x.stroke();
+  x.fillStyle=C.eosin;x.globalAlpha=.85;x.beginPath();x.ellipse(1240,1430,58,40,0,0,7);x.fill();x.globalAlpha=1;x.fillStyle=C.hema;x.beginPath();x.arc(1252,1424,18,0,7);x.fill();
+  x.fillStyle=C.gold;x.font=F(700,30,'d');x.fillText('علماء الخلية',1240,1525);
+  x.restore();
+}
+function roundRect(x,a,b,w,h,r){x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath()}
+function drawPreview(cv,d){drawCert(cv,d)}
+async function certPNG(d){const cv=document.createElement('canvas');cv.width=2480;cv.height=1754;await drawCert(cv,d);return new Promise(r=>cv.toBlob(r,'image/png'))}
+async function certHTML(d){const blob=await certPNG(d);const url=await new Promise(r=>{const f=new FileReader();f.onload=()=>r(f.result);f.readAsDataURL(blob)});
+  return `<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>شهادة ${esc(d.name)}</title><style>@page{size:A4 landscape;margin:0}html,body{margin:0;background:#ddd}img{display:block;width:297mm;height:210mm;margin:0 auto;background:#fff}.bar{text-align:center;padding:12px;font-family:Tahoma,sans-serif}.bar button{font-size:18px;padding:10px 24px;border-radius:10px;border:0;background:#3A3A8E;color:#fff;cursor:pointer}@media print{.bar{display:none}html,body{background:#fff}}</style></head><body><div class="bar"><button onclick="print()">طباعة الشهادة أو حفظها PDF</button></div><img src="${url}" alt="شهادة"></body></html>`}
+async function saveFile(filename,data){if(!downloads){toast('حفظ الملفات غير متاح في هذا العرض');return false}try{await downloads.save({filename,data});return true}catch(e){if(e&&e.code==='declined')return false;toast('تعذّر حفظ الملف');return false}}
+const safeName=s=>s.replace(/[\\/:*?"<>|]+/g,'').replace(/\s+/g,'-').slice(0,40)||'طالبة';
+function certActions(box,note,d){
+  if(!downloads){note.textContent='حفظ الملفات غير متاح في هذا العرض. يمكنك أخذ لقطة شاشة للشهادة، أو فتح الصفحة في متصفح على الحاسب.';return}
+  const b1=mk('button','btn','تنزيل الشهادة للطباعة (A4)');b1.onclick=async()=>{b1.disabled=true;await saveFile(`شهادة-${safeName(d.name)}.html`,await certHTML(d));b1.disabled=false};
+  const b2=mk('button','btn alt','حفظ الشهادة صورة PNG');b2.onclick=async()=>{b2.disabled=true;await saveFile(`شهادة-${safeName(d.name)}.png`,await certPNG(d));b2.disabled=false};
+  box.append(b1,b2);note.textContent='ملف الطباعة يفتح في المتصفح وفيه زر «طباعة الشهادة أو حفظها PDF» بمقاس A4 أفقي.';
+}
+
+/* ============ Leaderboard ============ */
+function boardHTML(){
+  const rid=CFG.round;const list=roundEntries(rid);const label=(CFG.rounds.find(r=>r.id===rid)||{}).label||'';
+  if(!boardLoaded)return `<section class="card"><p class="muted">جارٍ تحميل النتائج…</p></section>`;
+  const p=list.slice(0,3);
+  return `<div class="stack pop"><section class="card stack"><h2>لوحة المتصدرات <span class="small muted">· ${esc(label)}</span></h2>
+  ${!online()?`<div class="note">تعرض هذه اللوحة النتائج المسجلة على هذا الجهاز فقط. اللوحة الشاملة لجميع الطالبات تظهر في الصفحة المشتركة التي تديرها المعلمة.</div>`:''}
+  ${list.length?`${p[0]?`<div class="champ">بطلة تحدي علماء الخلية: ${esc(p[0].name)}</div>`:''}
+  <div class="podium">${[1,0,2].map(i=>p[i]?`<div class="pod p${i+1}"><div class="medal">${n(i+1)}</div><div class="nm">${esc(p[i].name)}</div><div class="sc">${n(p[i].score)} نقطة · ${tSpan(p[i].timeMs)}</div></div>`:'<div></div>').join('')}</div>
+  ${rankTable(list,false)}`:`<div class="note">لم تكمل أي طالبة هذه الجولة بعد. ستظهر النتائج هنا فور انتهاء أول طالبة من المسابقة.</div>`}
+  <p class="small muted">الترتيب حسب أعلى درجة أولًا، وعند التساوي تتقدم الأقل زمنًا.</p></section></div>`}
+function rankTable(list,teacher){return `<div class="tblwrap"><table><thead><tr><th>المركز</th><th>الاسم</th><th>الدرجة</th><th>صحيحة</th><th>خاطئة</th><th>الزمن</th><th>التاريخ</th><th>الحالة</th>${teacher?'<th>إجراءات</th>':''}</tr></thead><tbody>
+  ${list.map((e,i)=>`<tr class="${online()&&e.id===uid?'me':''}"><td class="num">${n(i+1)}</td><td class="nm">${esc(e.name)}</td><td class="num"><b>${n(e.score)}</b></td><td class="num">${n(e.correct)}</td><td class="num">${n(e.wrong)}</td><td>${tSpan(e.timeMs)}</td><td>${fmtDate(e.date)}</td><td>${e.done?'<span class="badge ok">مكتملة</span>':`<span class="badge part">${n(e.levels)} مستويات</span>`}</td>${teacher?`<td><button class="btn sm alt" data-det="${esc(e.id)}">التفاصيل</button> <button class="btn sm alt" data-cert="${i}">شهادة</button></td>`:''}</tr>`).join('')}</tbody></table></div>`}
+function bindBoard(){}
+
+/* ============ Teacher dashboard ============ */
+let tRound=null,tDetail=null,tConfirm=false;
+function analysis(list,rid){
+  const per={};ALLQ.forEach(q=>per[q.id]={n:0,w:0});const sk={};Object.keys(SK).forEach(k=>sk[k]={n:0,c:0});const lv=LEVELS.map(()=>({n:0,c:0}));
+  list.forEach(e=>{const d=DETAILS[e.id]&&DETAILS[e.id].entries&&DETAILS[e.id].entries[rid];const ans=d?d.answers:[];ans.forEach(a=>{const q=ALLQ.find(x=>x.id===a.q);if(!q)return;per[q.id].n++;if(!a.ok)per[q.id].w++;sk[q.sk].n++;sk[q.sk].c+=a.ok;lv[q.lv].n++;lv[q.lv].c+=a.ok})});
+  return{per,sk,lv}}
+function teacherHTML(){
+  tRound=tRound||CFG.round;const list=roundEntries(tRound);const done=list.filter(e=>e.done);
+  const avg=list.length?Math.round(list.reduce((a,e)=>a+e.score,0)/list.length):0;
+  const A=analysis(list,tRound);const hard=ALLQ.map(q=>({q,...A.per[q.id]})).filter(x=>x.n).sort((a,b)=>b.w/b.n-a.w/a.n).slice(0,8);
+  const bar=(label,c,t)=>{const p=t?Math.round(c/t*100):0;return `<div class="bar"><span>${label}</span><div class="track"><div class="fill ${p<50?'low':p<70?'mid':''}" style="width:${p}%"></div></div><span class="num">${t?n(p)+'٪':'—'}</span></div>`};
+  return `<div class="stack pop">
+  <section class="card stack"><div class="row" style="justify-content:space-between"><h2>لوحة المعلمة</h2>
+    <div class="row"><label for="roundSel" class="small">الجولة</label><select id="roundSel" class="input" style="width:auto;padding:6px 10px">${CFG.rounds.map(r=>`<option value="${esc(r.id)}" ${r.id===tRound?'selected':''}>${esc(r.label)}${r.id===CFG.round?' (الحالية)':''}</option>`).join('')}</select></div></div>
+    <div class="stats"><div class="stat"><b>${n(list.length)}</b><span>المشاركات</span></div><div class="stat"><b>${n(done.length)}</b><span>أكملن المسابقة</span></div><div class="stat"><b>${n(avg)}</b><span>متوسط الدرجات</span></div><div class="stat"><b style="font-size:1.1rem">${list[0]?esc(list[0].name):'—'}</b><span>المتصدرة</span></div></div>
+    ${list.length?rankTable(list,true):`<div class="note">لا توجد نتائج في هذه الجولة بعد. شاركي الصفحة مع الطالبات، أو أضيفي رموز النتائج من الأسفل.</div>`}
+    <div id="detailBox"></div>
+    <div class="row"><button class="btn sm" id="expCsv">تصدير النتائج CSV (Excel)</button><button class="btn sm alt" id="expRep">تنزيل تقرير قابل للطباعة</button></div>
+  </section>
+  <section class="card stack"><h2>تحليل الأداء</h2>
+    <div class="sec-title">نسبة الإجابات الصحيحة حسب المهارة</div><div class="bars">${Object.keys(SK).map(k=>bar(SK[k],A.sk[k].c,A.sk[k].n)).join('')}</div>
+    <div class="sec-title">نسبة الإجابات الصحيحة حسب المستوى</div><div class="bars">${LEVELS.map((L,i)=>bar(`${n(i+1)}. ${L.name}`,A.lv[i].c,A.lv[i].n)).join('')}</div>
+    <div class="sec-title">الأسئلة الأكثر إخفاقًا</div>
+    ${hard.length?`<ol class="hard">${hard.map(h=>`<li><span><b>${n(h.q.lv+1)}.${n(+h.q.id.split('Q')[1])}</b> ${esc(h.q.q.replace(/___/g,'…'))} <span class="chip sk">${SK[h.q.sk]}</span></span><span class="rate num">${n(Math.round(h.w/h.n*100))}٪ خطأ</span></li>`).join('')}</ol>`:`<p class="muted small">يظهر التحليل بعد مشاركة الطالبات.</p>`}
+  </section>
+  <section class="card stack"><h2>إضافة نتائج من رموز الطالبات</h2>
+    <p class="small muted">للطالبات اللاتي لعبن دون حساب مشترك: الصقي رمزًا أو أكثر (كل رمز في سطر) ثم أضيفيها إلى السجل.</p>
+    <textarea id="codesIn" class="input" rows="4" dir="ltr" placeholder="CC4.…"></textarea>
+    <div class="row"><button class="btn sm" id="addCodes">إضافة إلى السجل</button><span id="codesMsg" class="small"></span></div>
+  </section>
+  <section class="card stack"><h2>إعدادات المسابقة</h2>
+    <div class="set-grid">
+      <div class="field"><label for="setRetries">إعادة المحاولة لكل مستوى</label><select id="setRetries" class="input">${[[0,'غير متاحة'],[1,'مرة واحدة'],[2,'مرتان'],[3,'ثلاث مرات'],[-1,'بلا حد']].map(([v,l])=>`<option value="${v}" ${CFG.retries===v?'selected':''}>${l}</option>`).join('')}</select></div>
+      <div class="stack" style="gap:8px;justify-content:center"><label class="check"><input type="checkbox" id="setReplay" ${CFG.allowReplay?'checked':''}> السماح للطالبة بإعادة المسابقة كاملة (تُحفظ أفضل نتيجة)</label>
+      <label class="check"><input type="checkbox" id="setOpen" ${CFG.open!==false?'checked':''}> المسابقة مفتوحة للطالبات</label></div>
+    </div>
+    <div class="row"><button class="btn sm" id="saveSet">حفظ الإعدادات</button></div>
+    <div class="sec-title">شعار وزارة التعليم</div>
+    <div class="row">${CFG.logo?`<img src="${esc(CFG.logo)}" alt="الشعار الحالي" style="max-height:60px">`:'<span class="small muted">لم يُرفع الشعار بعد.</span>'}
+    ${assets?`<label class="btn sm alt" for="logoIn" style="display:inline-block">رفع الشعار الرسمي</label><input type="file" id="logoIn" accept="image/png,image/jpeg,image/svg+xml,image/webp" hidden>`:'<span class="small muted">الرفع غير متاح في هذا العرض.</span>'}</div>
+    <div class="sec-title">بدء منافسة جديدة</div>
+    <p class="small muted">تبدأ جولة جديدة بلوحة متصدرات فارغة، وتبقى نتائج الجولات السابقة محفوظة ويمكن عرضها من قائمة الجولات.</p>
+    ${tConfirm?`<div class="inline-confirm stack"><div class="field"><label for="newLabel">اسم الجولة الجديدة</label><input id="newLabel" class="input" value="الجولة ${['الأولى','الثانية','الثالثة','الرابعة','الخامسة','السادسة','السابعة','الثامنة'][CFG.rounds.length]||n(CFG.rounds.length+1)}"></div><div class="row"><button class="btn sm pink" id="doNew">تأكيد بدء الجولة</button><button class="btn sm alt" id="cancelNew">إلغاء</button></div></div>`:`<div class="row"><button class="btn sm alt" id="askNew">بدء جولة جديدة</button></div>`}
+  </section></div>`}
+function bindTeacher(){
+  $('#roundSel').onchange=e=>{tRound=e.target.value;tDetail=null;render()};
+  const list=roundEntries(tRound);
+  document.querySelectorAll('[data-det]').forEach(b=>b.onclick=()=>{tDetail=b.dataset.det;showDetail(list)});
+  document.querySelectorAll('[data-cert]').forEach(b=>b.onclick=async()=>{const e=list[+b.dataset.cert];const i=+b.dataset.cert+1;b.disabled=true;await saveFile(`شهادة-${safeName(e.name)}.html`,await certHTML({name:e.name,score:e.score,grade:e.grade||grade(e.pct||0),done:e.done,rank:i<=3?i:null,date:e.date}));b.disabled=false});
+  if(tDetail)showDetail(list);
+  $('#expCsv').onclick=()=>{const rows=[['المركز','الاسم','الدرجة','الإجابات الصحيحة','الإجابات الخاطئة','الزمن (دقيقة:ثانية)','الزمن بالثواني','التاريخ','الحالة','المستويات المجتازة','الإعادات','التقدير']];list.forEach((e,i)=>rows.push([i+1,e.name,e.score,e.correct,e.wrong,fmtT(e.timeMs).replace(/[٠-٩]/g,d=>AR.indexOf(d)),Math.round(e.timeMs/1000),new Date(e.date).toISOString().slice(0,10),e.done?'مكتملة':'غير مكتملة',e.levels,e.retries||0,e.grade||'']));const csv='﻿'+rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\r\n');saveFile(`نتائج-تحدي-علم-الوراثة-${tRound}.csv`,csv)};
+  $('#expRep').onclick=()=>saveFile(`تقرير-تحدي-علم-الوراثة-${tRound}.html`,reportHTML(list));
+  $('#addCodes').onclick=addCodes;
+  $('#saveSet').onclick=async()=>{await setCfg({retries:+$('#setRetries').value,allowReplay:$('#setReplay').checked,open:$('#setOpen').checked});toast('حُفظت الإعدادات')};
+  const li=$('#logoIn');if(li)li.onchange=async()=>{const f=li.files[0];if(!f)return;try{const r=await assets.upload(f);await setCfg({logo:r.url});toast('رُفع الشعار')}catch(e){toast('تعذّر رفع الشعار')}};
+  const an=$('#askNew');if(an)an.onclick=()=>{tConfirm=true;render()};
+  const cn=$('#cancelNew');if(cn)cn.onclick=()=>{tConfirm=false;render()};
+  const dn=$('#doNew');if(dn)dn.onclick=async()=>{const label=$('#newLabel').value.trim()||'جولة جديدة';const id='r'+Date.now().toString(36);await setCfg({round:id,rounds:[...CFG.rounds,{id,label,at:Date.now()}]});tConfirm=false;tRound=id;toast('بدأت '+label)};
+}
+async function setCfg(patch){CFG={...CFG,...patch};if(db){try{await db.doc('config/main').set({round:CFG.round,rounds:CFG.rounds,retries:CFG.retries,allowReplay:CFG.allowReplay,open:CFG.open,logo:CFG.logo||null})}catch(e){toast('تعذّر حفظ الإعدادات')}}applyLogo();render()}
+function showDetail(list){const e=list.find(x=>x.id===tDetail);const box=$('#detailBox');if(!e||!box)return;const d=DETAILS[e.id]&&DETAILS[e.id].entries&&DETAILS[e.id].entries[tRound];
+  const ans=d?d.answers:[];
+  box.innerHTML=`<div class="note stack" style="gap:8px"><div class="row" style="justify-content:space-between"><b>تفاصيل إجابات: ${esc(e.name)}</b><button class="btn sm alt" id="closeDet">إغلاق</button></div>
+  ${ans.length?`<div class="tblwrap"><table><thead><tr><th>السؤال</th><th>المهارة</th><th>المحاولة</th><th>النتيجة</th><th>الزمن</th></tr></thead><tbody>${ans.map(a=>{const q=ALLQ.find(x=>x.id===a.q);return `<tr><td class="nm">${n(q.lv+1)}.${n(+q.id.split('Q')[1])} ${esc(q.q.replace(/___/g,'…').slice(0,90))}</td><td>${SK[q.sk]}</td><td class="num">${n(a.att||1)}</td><td>${a.ok?'<span class="badge ok">صحيحة</span>':'<span class="badge part" style="color:var(--bad);background:var(--bad-soft)">خاطئة</span>'}</td><td class="num">${a.ms?n(Math.round(a.ms/1000))+' ث':'—'}</td></tr>`}).join('')}</tbody></table></div>`:'<p class="small">لا تتوفر تفاصيل الإجابات لهذه النتيجة.</p>'}</div>`;
+  $('#closeDet').onclick=()=>{tDetail=null;box.innerHTML=''}}
+async function addCodes(){const msg=$('#codesMsg');const lines=$('#codesIn').value.split(/\s+/).filter(Boolean);let ok=0,bad=0;
+  for(const c of lines){try{const p=readCode(c);const id='code_'+hash(p.n+'|'+p.d);const ansMap={};const answers=[];ALLQ.forEach((q,i)=>{const ch=p.a[i];if(ch==='1'||ch==='0'){ansMap[q.id]=+ch;answers.push({q:q.id,ok:+ch,ms:0,att:1})}});
+    const pct=Math.round(p.c/ALLQ.length*100);const E={name:p.n,round:p.r,score:p.s,correct:p.c,wrong:p.w,total:ALLQ.length,timeMs:p.t,date:p.d,done:!!p.dn,levels:p.l,retries:p.rt,pct,grade:grade(pct),via:'code'};
+    if(db){const ref=db.doc('board/'+id);const s=await ref.get();const cur=(s.exists&&s.data())||{};await ref.set({name:p.n,entries:{...(cur.entries||{}),[p.r]:E},updatedAt:Date.now()});const dref=db.doc('details/'+id);const ds=await dref.get();const dc=(ds.exists&&ds.data())||{};await dref.set({name:p.n,entries:{...(dc.entries||{}),[p.r]:{name:p.n,round:p.r,answers,final:ansMap}},updatedAt:Date.now()})}
+    ok++}catch(e){bad++}}
+  msg.textContent=`أُضيفت ${n(ok)} نتيجة${bad?`، وتعذّرت قراءة ${n(bad)} رمز (تأكدي من نسخه كاملًا)`:''}.`;if(ok)$('#codesIn').value=''}
+function reportHTML(list){const r=CFG.rounds.find(x=>x.id===tRound)||{};const A=analysis(list,tRound);const avg=list.length?Math.round(list.reduce((a,e)=>a+e.score,0)/list.length):0;
+  const hard=ALLQ.map(q=>({q,...A.per[q.id]})).filter(x=>x.n&&x.w).sort((a,b)=>b.w/b.n-a.w/a.n).slice(0,10);
+  return `<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>تقرير نتائج تحدي علماء الخلية</title><style>@page{size:A4;margin:14mm}body{font-family:Tahoma,"Segoe UI",sans-serif;color:#14232A;margin:20px}h1{color:#3A3A8E;font-size:22px;margin:4px 0}h2{font-size:16px;color:#3A3A8E;margin-top:22px}.head{display:flex;justify-content:space-between;border-bottom:3px solid #3A3A8E;padding-bottom:8px;font-size:13px;line-height:1.7}table{width:100%;border-collapse:collapse;font-size:12px}th,td{border:1px solid #C8D5D1;padding:5px 7px;text-align:right}th{background:#E2EBE7}.kpi{display:flex;gap:10px}.kpi div{flex:1;border:1px solid #C8D5D1;border-radius:8px;padding:8px;text-align:center}.kpi b{display:block;font-size:20px;color:#3A3A8E}button{font-size:16px;padding:8px 20px;border:0;border-radius:8px;background:#3A3A8E;color:#fff;cursor:pointer}@media print{button{display:none}}</style></head><body>
+  <p><button onclick="print()">طباعة التقرير</button></p>
+  <div class="head"><div>المملكة العربية السعودية<br>وزارة التعليم<br>المتوسطة الثامنة عشرة</div><div style="text-align:center">مسابقة تفاعلية في مادة العلوم<br>الصف الثالث المتوسط<br>معلمة العلوم: منى باعبيد</div><div style="text-align:left">${fmtHijri(Date.now())}<br>${fmtDate(Date.now())} م</div></div>
+  <h1>تقرير نتائج «تحدي علماء الخلية» – علم الوراثة — ${esc(r.label||'')}</h1>
+  <div class="kpi"><div><b>${n(list.length)}</b>المشاركات</div><div><b>${n(list.filter(e=>e.done).length)}</b>أكملن</div><div><b>${n(avg)}</b>متوسط الدرجات من ${n(MAXPTS)}</div><div><b>${list[0]?esc(list[0].name):'—'}</b>المتصدرة</div></div>
+  <h2>ترتيب الطالبات</h2><table><tr><th>م</th><th>الاسم</th><th>الدرجة</th><th>صحيحة</th><th>خاطئة</th><th>الزمن</th><th>الحالة</th><th>التقدير</th></tr>${list.map((e,i)=>`<tr><td>${n(i+1)}</td><td>${esc(e.name)}</td><td>${n(e.score)}</td><td>${n(e.correct)}</td><td>${n(e.wrong)}</td><td dir="ltr" style="text-align:right">${fmtT(e.timeMs)}</td><td>${e.done?'مكتملة':'غير مكتملة'}</td><td>${e.grade||''}</td></tr>`).join('')}</table>
+  <h2>الأداء حسب المهارة</h2><table><tr><th>المهارة</th><th>نسبة الإجابات الصحيحة</th></tr>${Object.keys(SK).map(k=>`<tr><td>${SK[k]}</td><td>${A.sk[k].n?n(Math.round(A.sk[k].c/A.sk[k].n*100))+'٪':'—'}</td></tr>`).join('')}</table>
+  <h2>الأداء حسب المستوى</h2><table><tr><th>المستوى</th><th>الموضوع</th><th>نسبة الإجابات الصحيحة</th></tr>${LEVELS.map((L,i)=>`<tr><td>${n(i+1)}. ${L.name}</td><td>${esc(L.topic)}</td><td>${A.lv[i].n?n(Math.round(A.lv[i].c/A.lv[i].n*100))+'٪':'—'}</td></tr>`).join('')}</table>
+  <h2>الأسئلة الأكثر إخفاقًا</h2><table><tr><th>السؤال</th><th>المهارة</th><th>نسبة الخطأ</th></tr>${hard.map(h=>`<tr><td>${esc(h.q.q.replace(/___/g,'…'))}</td><td>${SK[h.q.sk]}</td><td>${n(Math.round(h.w/h.n*100))}٪</td></tr>`).join('')||'<tr><td colspan="3">لا توجد بيانات كافية</td></tr>'}</table>
+  </body></html>`}
+
+applyLogo();render();
+</script>
+
+</body></html>
